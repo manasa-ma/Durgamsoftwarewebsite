@@ -4,7 +4,6 @@ import { SectionHeader } from '../../../components/common/SectionHeader';
 import { BlogGrid } from '../../../components/resources/BlogGrid';
 import { Button } from '../../../components/buttons/Button';
 import { BLOG_POSTS } from '../../../data/resources';
-
 export const ResourcesPreview = () => {
   return (
     <section className="bg-white py-16 md:py-24 border-b border-brand-border">

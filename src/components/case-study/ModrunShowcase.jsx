@@ -12,10 +12,10 @@ import {
   ArrowRight,
   ShieldCheck,
 } from 'lucide-react';
-import modrunEcoImg from '../../assets/images/clients/modrun-ecommerce-showcase.jpg';
-import modrunMobImg from '../../assets/images/clients/modrun-mobile-app-showcase.jpg';
-import modrunPosImg from '../../assets/images/clients/modrun-warehouse-pos.jpg';
-import modrunMktImg from '../../assets/images/clients/modrun-growth-analytics.jpg';
+import modrunEcoImg from '../../assets/images/clients/case-study-modrun-ecommerce.webp';
+import modrunMobImg from '../../assets/images/clients/case-study-modrun-mobile-app.webp';
+import modrunPosImg from '../../assets/images/clients/case-study-modrun-warehouse-pos.webp';
+import modrunMktImg from '../../assets/images/clients/case-study-modrun-growth-analytics.webp';
 import { MODRUN_CASE_STUDY } from '../../data/clientReviews';
 
 export const ModrunShowcase = ({ currentSection = 'all' }) => {
@@ -129,7 +129,7 @@ export const ModrunShowcase = ({ currentSection = 'all' }) => {
           <div className="flex flex-wrap items-center gap-3">
             <h3 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
               ModRun Clothing{' '}
-              <span className="text-[#E8683E] text-lg sm:text-xl font-normal block sm:inline">
+              <span className="text-[#C74E23] text-lg sm:text-xl font-normal block sm:inline">
                 ({MODRUN_CASE_STUDY.domain})
               </span>
             </h3>
@@ -137,7 +137,7 @@ export const ModrunShowcase = ({ currentSection = 'all' }) => {
               href="https://modrunclothing.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-stone-300 hover:border-[#E8683E] text-xs font-semibold text-slate-700 hover:text-[#E8683E] shadow-2xs transition-all group"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-stone-300 hover:border-[#C74E23] text-xs font-semibold text-slate-700 hover:text-[#C74E23] shadow-2xs transition-all group"
               title="Visit live client website"
             >
               <span>Visit modrunclothing.com</span>
@@ -151,14 +151,14 @@ export const ModrunShowcase = ({ currentSection = 'all' }) => {
 
         {/* Live Simulation Ticker */}
         <div className="bg-white px-4 py-2.5 rounded-2xl border border-stone-200/90 shadow-2xs flex items-center gap-3 max-w-md">
-          <div className="w-8 h-8 rounded-xl bg-orange-50 text-[#E8683E] flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-orange-50 text-[#B83E15] flex items-center justify-center shrink-0">
             <Zap className="w-4 h-4" />
           </div>
           <div className="overflow-hidden">
             <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
               <span>LIVE TELEMETRY</span>
-              <span className="w-1 h-1 rounded-full bg-[#E8683E]" />
-              <span className="text-[#E8683E]">{tickerUpdates[liveTickerIdx].time}</span>
+              <span className="w-1 h-1 rounded-full bg-[#C74E23]" />
+              <span className="text-[#C74E23]">{tickerUpdates[liveTickerIdx].time}</span>
             </div>
             <p className="text-xs font-medium text-slate-800 truncate">
               {tickerUpdates[liveTickerIdx].text}
@@ -178,22 +178,22 @@ export const ModrunShowcase = ({ currentSection = 'all' }) => {
               onClick={() => setActiveTab(tab.id)}
               className={`p-3.5 rounded-2xl text-left border transition-all duration-200 cursor-pointer ${
                 isActive
-                  ? 'bg-white border-[#E8683E] shadow-md -translate-y-0.5 ring-2 ring-orange-100'
+                  ? 'bg-white border-[#C74E23] shadow-md -translate-y-0.5 ring-2 ring-orange-100'
                   : 'bg-white/70 hover:bg-white border-stone-200/80 hover:border-slate-300'
               }`}
             >
               <div
                 className={`w-8 h-8 rounded-xl flex items-center justify-center mb-2 transition-colors ${
                   isActive
-                    ? 'bg-[#E8683E] text-white'
+                    ? 'bg-[#C74E23] text-white'
                     : 'bg-stone-100 text-slate-600'
                 }`}
               >
                 {tab.icon}
               </div>
-              <h4 className="text-xs sm:text-sm font-bold text-black tracking-tight leading-snug">
+              <span className="text-xs sm:text-sm font-bold text-black tracking-tight leading-snug block">
                 {tab.label}
-              </h4>
+              </span>
               <span className="text-[11px] text-slate-500 font-medium block mt-0.5">
                 {tab.sublabel}
               </span>
@@ -213,48 +213,20 @@ export const ModrunShowcase = ({ currentSection = 'all' }) => {
               className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
             />
 
-            {/* Browser / System Header Chrome Simulation */}
-            <div className="absolute top-3 left-3 right-3 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-stone-200/80 shadow-sm flex items-center justify-between text-[11px]">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-rose-400 inline-block" />
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block" />
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block" />
-                <span className="ml-2 font-mono text-slate-600 text-[10px] hidden sm:inline">
-                  https://modrunclothing.com/{activeTab !== 'web' ? activeTab : ''}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-bold text-[10px]">
-                  SSL Secured
-                </span>
-                <span className="px-2 py-0.5 rounded-md bg-orange-100 text-[#E8683E] font-bold text-[10px]">
-                  Engineered by DS
-                </span>
-              </div>
-            </div>
 
-            {/* Inset Stat Pill */}
-            <div className="absolute bottom-3 right-3 bg-black/90 text-white backdrop-blur-md px-4 py-2.5 rounded-xl shadow-lg border border-white/10 flex items-center gap-3">
-              <span className="text-xl font-black text-[#E8683E] font-mono">
-                {currentTab.statPill.value}
-              </span>
-              <span className="text-[11px] text-stone-300 font-medium leading-tight">
-                {currentTab.statPill.label}
-              </span>
-            </div>
           </div>
         </div>
 
         {/* Right: Technical Capabilities & Deliverables */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-50 text-[#E8683E] text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-50 text-[#B83E15] text-xs font-bold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Engineered by Durgam Soft</span>
           </div>
 
-          <h4 className="text-xl sm:text-2xl font-black text-black tracking-tight leading-tight">
+          <h3 className="text-xl sm:text-2xl font-black text-black tracking-tight leading-tight">
             {currentTab.label}
-          </h4>
+          </h3>
 
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
             Custom engineered for ModRun Clothing's high-traffic apparel operations. Every component is optimized for speed, reliability, and automated order fulfillment.
@@ -274,7 +246,7 @@ export const ModrunShowcase = ({ currentSection = 'all' }) => {
               href="https://modrunclothing.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-black hover:bg-[#E8683E] text-white text-xs font-bold transition-all group shadow-sm"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-black hover:bg-[#C74E23] text-white text-xs font-bold transition-all group shadow-sm"
             >
               <span>Explore Live ModRun Platform</span>
               <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
@@ -293,9 +265,9 @@ export const ModrunShowcase = ({ currentSection = 'all' }) => {
               ))}
               <span className="text-xs font-black text-black ml-1">5.0 / 5.0</span>
             </div>
-            <h4 className="text-base sm:text-lg font-black text-black tracking-tight">
+            <h3 className="text-base sm:text-lg font-black text-black tracking-tight">
               What ModRun Leadership Says About Durgam Soft
-            </h4>
+            </h3>
           </div>
 
           {/* Reviewer Selector Tabs */}
@@ -307,7 +279,7 @@ export const ModrunShowcase = ({ currentSection = 'all' }) => {
                 onClick={() => setActiveReviewIdx(lIdx)}
                 className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
                   activeReviewIdx === lIdx
-                    ? 'bg-[#E8683E] text-white shadow-2xs'
+                    ? 'bg-[#C74E23] text-white shadow-2xs'
                     : 'bg-white text-slate-600 hover:text-black border border-stone-200'
                 }`}
               >
@@ -324,7 +296,7 @@ export const ModrunShowcase = ({ currentSection = 'all' }) => {
               &ldquo;{activeLeader.quote}&rdquo;
             </p>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#E8683E] text-white font-bold text-sm flex items-center justify-center shrink-0 shadow-2xs">
+              <div className="w-10 h-10 rounded-full bg-[#C74E23] text-white font-bold text-sm flex items-center justify-center shrink-0 shadow-2xs">
                 {activeLeader.avatarInitial}
               </div>
               <div>

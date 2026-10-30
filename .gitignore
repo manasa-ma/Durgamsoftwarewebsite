@@ -12,7 +12,24 @@ dist
 dist-ssr
 *.local
 
-# Editor directories and files
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Database files
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+server/data/*.db
+server/data/*.sqlite
+
+# Lighthouse reports
+lh-*.json
+all-routes-scores.json
+reports/
+
 .vscode/*
 !.vscode/extensions.json
 .idea

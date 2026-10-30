@@ -1,6 +1,5 @@
 import React from 'react';
 import { cn } from '../../utils/helpers';
-
 export const ProductCard = ({ children, className, featured = false }) => {
   return (
     <div

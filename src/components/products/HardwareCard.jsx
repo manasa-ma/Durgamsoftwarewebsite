@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Printer, Scan, FileText, Layers, Tag, ArrowRight } from 'lucide-react';
 import { ProductCard } from './ProductCard';
 import { Badge } from '../common/Badge';
-
 const getCategoryIcon = (category) => {
   switch (category) {
     case 'Thermal Printers':
@@ -20,7 +19,6 @@ const getCategoryIcon = (category) => {
       return <Printer className="w-6 h-6 text-brand-orange" />;
   }
 };
-
 export const HardwareCard = ({ product }) => {
   return (
     <ProductCard className="hover:border-brand-orange/40">

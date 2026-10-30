@@ -9,7 +9,7 @@ export const ServicesPreview = () => {
   const devServices = SERVICES_DATA.filter((s) => s.group === 'Application Development');
   const marketingServices = SERVICES_DATA.filter((s) => s.group === 'Digital Marketing');
   return (
-    <section id="products" className="bg-brand-light-gray -mt-[50px] relative z-10 border-t border-b border-brand-border py-16 md:py-24">
+    <section id="products" className="bg-brand-light-gray mt-0 relative z-10 border-t border-b border-brand-border py-16 md:py-24">
       <div className="container-custom">
         <SectionHeader
           title="What We Do"
@@ -25,10 +25,10 @@ export const ServicesPreview = () => {
           ))}
         </div>
 
-        {/* Discuss Project CTA linking to /book-demo */}
+        {/* Explore Services CTA linking to /services */}
         <div className="text-center">
-          <Button variant="primary" size="lg" to="/book-demo" className="gap-2">
-            <span>Discuss Your Project</span>
+          <Button variant="primary" size="lg" to="/services" className="gap-2">
+            <span>Explore All Services</span>
             <ArrowRight className="w-4 h-4" />
           </Button>
         </div>

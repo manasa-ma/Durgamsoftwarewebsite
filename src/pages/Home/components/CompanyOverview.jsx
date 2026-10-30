@@ -2,7 +2,6 @@ import React from 'react';
 import { Layers, ShieldCheck, Cpu, Headphones } from 'lucide-react';
 import { SectionHeader } from '../../../components/common/SectionHeader';
 import { COMPANY_OVERVIEW_DATA } from '../../../data/about';
-
 export const CompanyOverview = () => {
   return (
     <section
@@ -17,7 +16,7 @@ export const CompanyOverview = () => {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="p-6 rounded-xl bg-white border border-brand-border shadow-xs hover:border-slate-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <div className="p-6 rounded-xl bg-white border border-brand-border shadow-xs hover:border-brand-orange/40 transition-colors">
             <div className="w-10 h-10 rounded-lg bg-brand-light-orange flex items-center justify-center mb-4">
               <Layers className="w-5 h-5 text-brand-orange" />
             </div>
@@ -27,7 +26,7 @@ export const CompanyOverview = () => {
             </p>
           </div>
 
-          <div className="p-6 rounded-xl bg-white border border-brand-border shadow-xs hover:border-slate-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <div className="p-6 rounded-xl bg-white border border-brand-border shadow-xs hover:border-brand-orange/40 transition-colors">
             <div className="w-10 h-10 rounded-lg bg-brand-light-orange flex items-center justify-center mb-4">
               <Cpu className="w-5 h-5 text-brand-orange" />
             </div>
@@ -37,7 +36,7 @@ export const CompanyOverview = () => {
             </p>
           </div>
 
-          <div className="p-6 rounded-xl bg-white border border-brand-border shadow-xs hover:border-slate-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <div className="p-6 rounded-xl bg-white border border-brand-border shadow-xs hover:border-brand-orange/40 transition-colors">
             <div className="w-10 h-10 rounded-lg bg-brand-light-orange flex items-center justify-center mb-4">
               <ShieldCheck className="w-5 h-5 text-brand-orange" />
             </div>
@@ -47,7 +46,7 @@ export const CompanyOverview = () => {
             </p>
           </div>
 
-          <div className="p-6 rounded-xl bg-white border border-brand-border shadow-xs hover:border-slate-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <div className="p-6 rounded-xl bg-white border border-brand-border shadow-xs hover:border-brand-orange/40 transition-colors">
             <div className="w-10 h-10 rounded-lg bg-brand-light-orange flex items-center justify-center mb-4">
               <Headphones className="w-5 h-5 text-brand-orange" />
             </div>

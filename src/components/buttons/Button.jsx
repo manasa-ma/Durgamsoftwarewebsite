@@ -37,7 +37,7 @@ export const Button = ({
 
   if (to) {
     return (
-      <Link to={to} className={combinedClasses}>
+      <Link to={to} className={combinedClasses} {...props}>
         {children}
       </Link>
     );
@@ -45,7 +45,7 @@ export const Button = ({
 
   if (href) {
     return (
-      <a href={href} className={combinedClasses}>
+      <a href={href} className={combinedClasses} {...props}>
         {children}
       </a>
     );

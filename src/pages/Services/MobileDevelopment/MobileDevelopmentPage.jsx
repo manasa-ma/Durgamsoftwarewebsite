@@ -4,7 +4,6 @@ import {
   Smartphone,
   ArrowRight,
   ArrowLeft,
-  Sparkles,
   Zap,
   Lock,
   Layers,
@@ -20,7 +19,7 @@ import { ServiceBenefits } from '../../../components/common/ServiceBenefits';
 import { ServiceFinalCTA } from '../../../components/common/ServiceFinalCTA';
 import { MOBILE_PROJECTS } from '../../../data/serviceProjects';
 import { SERVICE_REVIEWS } from '../../../data/clientReviews';
-import serviceMobileImg from '../../../assets/images/services/service-mobile-development.jpg';
+import serviceMobileImg from '../../../assets/images/services/service-mobile-hero.webp';
 
 export const MobileDevelopmentPage = () => {
   useEffect(() => {
@@ -91,7 +90,7 @@ export const MobileDevelopmentPage = () => {
   ];
 
   return (
-    <div className="bg-white min-h-screen font-sans text-slate-900 antialiased selection:bg-[#E8683E]/20 selection:text-[#E8683E]">
+    <div className="bg-white min-h-screen font-sans text-slate-900 antialiased selection:bg-[#C74E23]/20 selection:text-[#C74E23]">
       {/* Breadcrumb Navigation */}
       <Breadcrumb
         items={[
@@ -107,7 +106,7 @@ export const MobileDevelopmentPage = () => {
         <div className="container-custom max-w-6xl">
           <Link
             to="/services"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-[#E8683E] uppercase tracking-wider mb-6 transition-colors group"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-[#C74E23] uppercase tracking-wider mb-6 transition-colors group"
           >
             <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
             <span>Back to Services</span>
@@ -116,14 +115,14 @@ export const MobileDevelopmentPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left Narrative */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-[#E8683E] text-xs font-bold uppercase tracking-wider shadow-2xs">
-                <Smartphone className="w-3.5 h-3.5 text-[#E8683E]" />
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-[#B83E15] text-xs font-bold uppercase tracking-wider shadow-2xs">
+                <Smartphone className="w-3.5 h-3.5 text-[#C74E23]" />
                 <span>iOS &amp; Android App Development</span>
               </div>
 
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-black tracking-tight leading-[1.15]">
                 Mobile Apps Built for{' '}
-                <span className="text-[#E8683E]">Modern Businesses</span>
+                <span className="text-[#B83E15]">Modern Businesses</span>
               </h1>
 
               <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal max-w-xl">
@@ -134,7 +133,7 @@ export const MobileDevelopmentPage = () => {
               <div className="flex flex-wrap items-center gap-3.5 pt-2">
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#E8683E] hover:bg-orange-600 text-white font-bold text-sm shadow-md hover:shadow-orange-500/25 active:scale-95 transition-all"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#C74E23] hover:bg-orange-600 text-white font-bold text-sm shadow-md hover:shadow-orange-500/25 active:scale-95 transition-all"
                 >
                   <span>Build Your App</span>
                   <ArrowRight className="w-4 h-4" />
@@ -159,20 +158,6 @@ export const MobileDevelopmentPage = () => {
                   />
                 </div>
 
-                {/* Floating Metric Badge */}
-                <div className="absolute -bottom-4 right-4 bg-white/95 backdrop-blur-md p-3.5 rounded-2xl border border-stone-200 shadow-lg flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-orange-50 text-[#E8683E] flex items-center justify-center font-bold text-sm">
-                    <Sparkles className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-xs font-bold text-black block">
-                      60 FPS Native Performance
-                    </span>
-                    <span className="text-[10px] text-slate-500 block">
-                      iOS &amp; Android Unified Parity
-                    </span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -185,7 +170,7 @@ export const MobileDevelopmentPage = () => {
       <section className="py-14 md:py-20 bg-white">
         <div className="container-custom max-w-6xl">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#E8683E] block mb-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#B83E15] block mb-2">
               WHAT WE BUILD
             </span>
             <h2 className="text-3xl sm:text-4xl font-black text-black tracking-tight leading-tight">
@@ -203,11 +188,11 @@ export const MobileDevelopmentPage = () => {
                 className="p-7 rounded-3xl bg-[#FAF7F2] border border-stone-200/90 shadow-2xs hover:shadow-xl hover:-translate-y-1.5 hover:border-stone-300 transition-all duration-300 flex flex-col justify-between group"
               >
                 <div>
-                  <div className="w-12 h-12 rounded-2xl bg-white border border-stone-200 flex items-center justify-center text-[#E8683E] mb-5 shadow-2xs group-hover:scale-105 transition-transform">
+                  <div className="w-12 h-12 rounded-2xl bg-white border border-stone-200 flex items-center justify-center text-[#C74E23] mb-5 shadow-2xs group-hover:scale-105 transition-transform">
                     {card.icon}
                   </div>
 
-                  <h3 className="text-lg font-black text-black tracking-tight mb-2.5 group-hover:text-[#E8683E] transition-colors">
+                  <h3 className="text-lg font-black text-black tracking-tight mb-2.5 group-hover:text-[#C74E23] transition-colors">
                     {card.title}
                   </h3>
 

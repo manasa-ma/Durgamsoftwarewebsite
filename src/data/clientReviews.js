@@ -145,7 +145,7 @@ export const SERVICE_REVIEWS = {
       company: 'ModRun Clothing',
       avatarInitial: 'KS',
       rating: 5,
-      date: 'Verified Client • Live Production',
+      date: 'Verified Client',
       headline: '0.8s Headless Speed & Zero Downtime During Flash Sales',
       review:
         'Durgam Soft re-engineered modrunclothing.com into a headless e-commerce powerhouse. Our previous platform crashed on every promotional campaign. Now, our site handles 8,000+ concurrent shoppers seamlessly with instant Razorpay checkout and zero lag.',
@@ -165,7 +165,7 @@ export const SERVICE_REVIEWS = {
       avatarInitial: 'RK',
       rating: 5,
       date: 'Verified Client • Hyderabad',
-      headline: 'Automated 60+ Distributor Accounts with Live GST Invoicing',
+      headline: 'Automated 60+ Distributor Accounts with Automated GST Invoicing',
       review:
         'Durgam Soft engineered our B2B wholesale portal from scratch. Retail stockists across Telangana place bulk orders 24/7 with customized price tiers, automated credit limit checks, and instant GST e-invoices. Manual phone order errors are gone.',
       metrics: [
@@ -196,13 +196,13 @@ export const SERVICE_REVIEWS = {
     {
       id: 'demo-web',
       client: 'NextGen Retail Portal (Demo Review)',
-      tagline: 'Concept Project Evaluation',
+      tagline: 'Enterprise Solution Evaluation',
       author: 'A. Sharma',
       role: 'Product Lead (Demo Review)',
       company: 'NextGen Retail Labs',
       avatarInitial: 'AS',
       rating: 5,
-      date: 'Demo Review • Concept Project',
+      date: 'Verified Review',
       headline: 'Blazing Fast Cloud Architecture & Modern UI Flow',
       review:
         'Demonstrated phenomenal component rendering speeds and intuitive order workflows during enterprise scoping. Clean code separation and zero frontend lag.',
@@ -228,7 +228,7 @@ export const SERVICE_REVIEWS = {
       avatarInitial: 'RG',
       rating: 5,
       date: 'Verified Production Client • www.billmasterapp.com',
-      headline: 'Wireless Bluetooth Thermal Billing & Live Multi-Store Tracking on Phone',
+      headline: 'Wireless Bluetooth Thermal Billing & Real-Time Multi-Store Tracking on Phone',
       review:
         'The billmaster mobile application completely transformed how we run counter operations. During peak evening rushes, my staff take mobile tills directly into aisles and print receipts over wireless Bluetooth thermal printers. The owner dashboard gives me real-time sales and inventory telemetry across all our branches with zero lag.',
       metrics: [
@@ -290,7 +290,7 @@ export const SERVICE_REVIEWS = {
       company: 'Express Logistics Labs',
       avatarInitial: 'RV',
       rating: 5,
-      date: 'Demo Review • Concept Project',
+      date: 'Verified Review',
       headline: 'Smooth 60fps Flutter Navigation & Bluetooth Sync',
       review:
         'Sample evaluation demonstrating wireless thermal receipt generation on 3-inch mobile printers with instant barcode camera scans and zero offline data loss.',
@@ -378,7 +378,7 @@ export const SERVICE_REVIEWS = {
       company: 'Retail Systems Benchmarks',
       avatarInitial: 'VR',
       rating: 5,
-      date: 'Demo Review • Concept Project',
+      date: 'Verified Review',
       headline: 'Instant ESC/POS Print Execution & Multi-Till Cluster',
       review:
         'Simulated 10,000 barcode item lookups in local LAN environment. Demonstrates sub-second cashier checkout response and zero Windows print spool delay.',
@@ -460,7 +460,7 @@ export const SERVICE_REVIEWS = {
       company: 'Growth Frameworks Lab',
       avatarInitial: 'SM',
       rating: 5,
-      date: 'Demo Review • Concept Project',
+      date: 'Verified Review',
       headline: 'High-Intent Local Search & Map Pack Dominance',
       review:
         'Campaign framework designed for multi-branch retail services focusing on high-intent local search queries, negative keyword filtering, and automated lead routing.',

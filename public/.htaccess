@@ -1,0 +1,60 @@
+# ------------------------------------------------------------------------------
+# Durgam Soft Pvt. Ltd. - Apache Server Configuration for React Single Page App
+# ------------------------------------------------------------------------------
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 1. Do not rewrite requests for the root index.html
+  RewriteRule ^index\.html$ - [L]
+
+  # 2. Pass backend API requests through untouched if reverse proxy or API is co-hosted
+  RewriteCond %{REQUEST_URI} ^/api(/.*)?$ [NC]
+  RewriteRule ^ - [L]
+
+  # 3. If requested resource exists physically as a file or directory, serve it directly
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # 4. Fallback for all other URLs: rewrite cleanly to index.html for React Router
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Prevent directory browsing
+<IfModule mod_autoindex.c>
+  Options -Indexes
+</IfModule>
+
+# Security Headers & Caching Strategy
+<IfModule mod_headers.c>
+  # Never cache index.html so users always receive latest version
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires 0
+  </FilesMatch>
+
+  # Cache immutable hashed assets for high performance
+  <FilesMatch "\.(js|css|webp|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$">
+    Header set Cache-Control "max-age=31536000, public, immutable"
+  </FilesMatch>
+
+  # Security headers
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set X-XSS-Protection "1; mode=block"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Ensure proper MIME types for web assets
+<IfModule mod_mime.c>
+  AddType application/javascript js mjs
+  AddType text/css css
+  AddType image/webp webp
+  AddType image/svg+xml svg svgz
+  AddType font/woff woff
+  AddType font/woff2 woff2
+  AddType application/json json
+</IfModule>

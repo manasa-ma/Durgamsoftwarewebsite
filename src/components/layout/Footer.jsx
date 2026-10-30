@@ -2,7 +2,9 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { NAVIGATION_ITEMS } from '../../data/navigation';
 import { COMPANY_NAME } from '../../utils/constants';
-import durgamSoftLogo from '../../assets/logos/durgamsoft-logo.png';
+import durgamSoftLogo from '../../assets/logos/durgamsoft-logo.webp';
+import durgamSoftTextLogoWhite from '../../assets/logos/durgamsoft-text-logo-white.webp';
+import { FacebookIcon, InstagramIcon } from '../common/FollowOnSocial';
 
 export const Footer = () => {
   const location = useLocation();
@@ -24,7 +26,7 @@ export const Footer = () => {
   return (
     <footer className="bg-brand-dark-navy text-slate-300 pt-16 pb-12 border-t border-slate-800">
       <div className="container-custom">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-800">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 sm:gap-10 pb-12 border-b border-slate-800">
           {/* Company branding */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-2.5 mb-4 group inline-flex">
@@ -33,7 +35,13 @@ export const Footer = () => {
                 alt={COMPANY_NAME}
                 className="w-10 h-10 object-contain drop-shadow-sm group-hover:scale-105 transition-transform"
               />
-              <span className="text-xl font-bold text-white tracking-tight">{COMPANY_NAME}</span>
+              <img
+                src={durgamSoftTextLogoWhite}
+                alt="Durgam Soft Private Limited - Innovate | Develop | Deliver"
+                width={162}
+                height={40}
+                className="h-10 w-auto object-contain drop-shadow-sm"
+              />
             </Link>
 
             <div className="space-y-2.5 text-xs text-slate-400 mb-6">
@@ -71,36 +79,47 @@ export const Footer = () => {
 
           {/* Products Column */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
+            <p className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
               Products
-            </h3>
+            </p>
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link to="/products" className="hover:text-brand-orange transition-colors">
-                  All Products
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/products/billmaster"
-                  className="hover:text-brand-orange transition-colors"
-                >
-                  billmaster Software
-                </Link>
-              </li>
-              <li>
-                <Link to="/products/hardware" className="hover:text-brand-orange transition-colors">
-                  POS & Hardware
+                  Our Products
                 </Link>
               </li>
             </ul>
+
+            {/* Social Media App Icons below Our Products */}
+            <div className="flex items-center gap-2.5 mt-4">
+              <a
+                href="https://www.facebook.com/people/Billmaster/61569207380121/?rdid=vTqZqnHUQO3l293t&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1VVSTddrSZ%2F"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow Billmaster on Facebook"
+                title="Facebook"
+                className="w-8 h-8 rounded-lg overflow-hidden shadow-xs hover:shadow-md hover:scale-110 active:scale-95 transition-all duration-300 block"
+              >
+                <FacebookIcon className="w-full h-full" />
+              </a>
+              <a
+                href="https://www.instagram.com/billmasterapp?dlrf=MTdubDB1d3p1dDQ5OA%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow Billmaster on Instagram"
+                title="Instagram"
+                className="w-8 h-8 rounded-lg overflow-hidden shadow-xs hover:shadow-md hover:scale-110 active:scale-95 transition-all duration-300 block"
+              >
+                <InstagramIcon className="w-full h-full" />
+              </a>
+            </div>
           </div>
 
           {/* Services Column */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
+            <p className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
               Services
-            </h3>
+            </p>
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link to="/services" className="hover:text-brand-orange transition-colors">
@@ -144,9 +163,9 @@ export const Footer = () => {
 
           {/* Quick Links Column */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
+            <p className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
               Quick Links
-            </h3>
+            </p>
             <ul className="space-y-2.5 text-sm">
               {navLinks.map((link) => (
                 <li key={link.label}>
@@ -158,9 +177,50 @@ export const Footer = () => {
               <li>
                 <Link
                   to="/book-demo"
-                  className="hover:text-brand-orange transition-colors font-semibold text-brand-orange"
+                  className="hover:text-orange-300 transition-colors font-semibold text-[#FB923C]"
                 >
                   Book a Demo →
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Legal & Policies Column */}
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
+              Legal &amp; Policies
+            </p>
+            <ul className="space-y-2.5 text-sm">
+              <li>
+                <Link
+                  to="/legal#privacy-policy"
+                  className="hover:text-brand-orange transition-colors"
+                >
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/legal#terms-and-conditions"
+                  className="hover:text-brand-orange transition-colors"
+                >
+                  Terms &amp; Conditions
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/legal#cookie-policy"
+                  className="hover:text-brand-orange transition-colors"
+                >
+                  Cookie Policy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/legal#disclaimer"
+                  className="hover:text-brand-orange transition-colors"
+                >
+                  Disclaimer
                 </Link>
               </li>
             </ul>
@@ -168,18 +228,22 @@ export const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-3 text-center sm:text-left">
           <div>
             &copy; {new Date().getFullYear()} {COMPANY_NAME}. All rights reserved.
           </div>
-          <div className="flex gap-6">
-            <span className="hover:text-white cursor-pointer transition-colors">
-              [PRIVACY_POLICY]
-            </span>
-            <span className="hover:text-white cursor-pointer transition-colors">
-              [TERMS_OF_SERVICE]
-            </span>
-            <span className="hover:text-white cursor-pointer transition-colors">[SITEMAP]</span>
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-slate-400">
+            <Link to="/legal#privacy-policy" className="hover:text-brand-orange transition-colors">
+              Privacy Policy
+            </Link>
+            <span className="text-slate-600 hidden sm:inline">•</span>
+            <Link to="/legal#terms-and-conditions" className="hover:text-brand-orange transition-colors">
+              Terms &amp; Conditions
+            </Link>
+            <span className="text-slate-600 hidden sm:inline">•</span>
+            <Link to="/legal" className="hover:text-brand-orange transition-colors">
+              Legal Information
+            </Link>
           </div>
         </div>
       </div>

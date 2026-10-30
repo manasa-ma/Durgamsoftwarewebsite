@@ -67,8 +67,8 @@ export const ProjectShowcaseCarousel = ({
       <div className="container-custom max-w-6xl">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-[#E8683E] text-xs font-bold uppercase tracking-wider mb-3 shadow-2xs">
-            <Sparkles className="w-3.5 h-3.5 text-[#E8683E]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-[#B83E15] text-xs font-bold uppercase tracking-wider mb-3 shadow-2xs">
+            <Sparkles className="w-3.5 h-3.5 text-[#C74E23]" />
             <span>{badge}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-black tracking-tight leading-tight">
@@ -99,39 +99,14 @@ export const ProjectShowcaseCarousel = ({
                     className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
 
-                  {/* Browser/System Bar Simulation */}
-                  <div className="absolute top-3 left-3 right-3 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-stone-200/80 shadow-2xs flex items-center justify-between text-[11px]">
-                    <div className="flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-rose-400 inline-block" />
-                      <span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block" />
-                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block" />
-                      <span className="ml-2 font-mono text-slate-600 text-[10px] hidden sm:inline truncate max-w-[200px]">
-                        {current.url ? current.url : `durgamsoft.com/projects/${current.id}`}
-                      </span>
-                    </div>
-                    <span className="px-2 py-0.5 rounded-md bg-orange-100 text-[#E8683E] font-bold text-[10px]">
-                      Live Project
-                    </span>
-                  </div>
 
-                  {/* Floating Metric Badge */}
-                  {current.metrics && current.metrics[0] && (
-                    <div className="absolute bottom-3 right-3 bg-black/90 text-white backdrop-blur-md px-4 py-2 rounded-xl shadow-lg border border-white/10 flex items-center gap-2.5">
-                      <span className="text-lg font-black text-[#E8683E] font-mono">
-                        {current.metrics[0].value}
-                      </span>
-                      <span className="text-[11px] text-stone-300 font-medium">
-                        {current.metrics[0].label}
-                      </span>
-                    </div>
-                  )}
                 </div>
               </div>
 
               {/* Right Content */}
               <div className="lg:col-span-5 space-y-4">
                 <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-orange-100/70 text-[#E8683E]">
+                  <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-orange-100/70 text-[#B83E15]">
                     {current.category}
                   </span>
                 </div>
@@ -149,7 +124,7 @@ export const ProjectShowcaseCarousel = ({
                   <div className="grid grid-cols-2 gap-3 py-1">
                     {current.metrics.map((m, idx) => (
                       <div key={idx} className="p-3 rounded-2xl bg-white border border-stone-200/80">
-                        <span className="text-base font-black text-[#E8683E] block">
+                        <span className="text-base font-black text-[#C74E23] block">
                           {m.value}
                         </span>
                         <span className="text-[11px] text-slate-500 font-medium">
@@ -181,7 +156,7 @@ export const ProjectShowcaseCarousel = ({
                       href={current.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-black hover:text-[#E8683E] transition-colors group/link"
+                      className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-black hover:text-[#C74E23] transition-colors group/link"
                     >
                       <span>Visit {current.urlLabel || current.title}</span>
                       <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
@@ -218,17 +193,21 @@ export const ProjectShowcaseCarousel = ({
               </div>
 
               {/* Dots */}
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1">
                 {projects.map((_, idx) => (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => setCurrentIndex(idx)}
-                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                      idx === currentIndex ? 'w-6 bg-[#E8683E]' : 'w-2 bg-stone-300 hover:bg-stone-400'
-                    }`}
+                    className="p-2 cursor-pointer flex items-center justify-center min-w-[28px] min-h-[28px]"
                     aria-label={`Go to project ${idx + 1}`}
-                  />
+                  >
+                    <span
+                      className={`h-2 rounded-full transition-all duration-300 block ${
+                        idx === currentIndex ? 'w-6 bg-[#C74E23]' : 'w-2 bg-stone-300 hover:bg-stone-400'
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
             </div>

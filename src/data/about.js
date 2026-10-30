@@ -389,14 +389,14 @@ export const CAPABILITY_SUMMARY = {
 export const FOUNDER_DATA = {
   id: 'venu-durgam',
   sectionTitle: 'Meet Our Founder & CEO',
-  name: 'Venu Durgam',
+  name: 'Durgam Venu Gopal',
   designation: 'Founder & CEO, Durgam Soft Pvt. Ltd.',
   initials: 'VD',
-  imageSrc: '/images/about/venu-durgam.jpg',
-  imagePlaceholder: 'Venu Durgam — Founder & CEO Portrait',
+  imageSrc: '/images/about/about-founder-venu-durgam.webp',
+  imagePlaceholder: 'Durgam Venu Gopal — Founder & CEO Portrait',
   bioParagraphs: [
-    'Venu Durgam is the Founder and Chief Executive Officer of Durgam Soft Pvt. Ltd. With an engineering mindset and deep respect for commercial business operations, he established Durgam Soft in 2022 in Hyderabad to build software that business owners genuinely enjoy using.',
-    'Recognizing that traditional billing software was often bloated, difficult to learn, and prone to peripheral hardware mismatches, Venu led the in-house architecture and development of billmaster. His hands-on involvement spans core product design, intuitive user interface development, and testing every printer and scanner model in our lineup.',
+    'Durgam Venu Gopal is the Founder and Chief Executive Officer of Durgam Soft Pvt. Ltd. With an engineering mindset and deep respect for commercial business operations, he established Durgam Soft in 2022 in Hyderabad to build software that business owners genuinely enjoy using.',
+    'Recognizing that traditional billing software was often bloated, difficult to learn, and prone to peripheral hardware mismatches, Durgam Venu Gopal led the in-house architecture and development of billmaster. His hands-on involvement spans core product design, intuitive user interface development, and testing every printer and scanner model in our lineup.',
     'Under his leadership, Durgam Soft has grown into a comprehensive technology solutions partner — developing its own proprietary software products, building custom web, mobile, and desktop software for other businesses, and delivering digital marketing services to help companies grow.',
   ],
   visionQuote:

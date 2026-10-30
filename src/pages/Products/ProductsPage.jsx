@@ -8,6 +8,7 @@ import { HardwareCard } from '../../components/products/HardwareCard';
 import { Button } from '../../components/buttons/Button';
 import { BILLMASTER_PRODUCTS, HARDWARE_PRODUCTS } from '../../data/products';
 import { updatePageMeta } from '../../utils/seo';
+import { FollowOnSocial } from '../../components/common/FollowOnSocial';
 export const ProductsPage = () => {
   useEffect(() => {
     updatePageMeta({
@@ -73,7 +74,7 @@ export const ProductsPage = () => {
       </section>
 
       {/* billmaster Section */}
-      <section id="billmaster" className="py-16 border-b border-brand-border">
+      <section className="py-16 border-b border-brand-border">
         <div className="container-custom">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-brand-border">
             <div>
@@ -102,7 +103,7 @@ export const ProductsPage = () => {
       </section>
 
       {/* Hardware Section */}
-      <section id="hardware" className="py-16 bg-brand-light-gray border-b border-brand-border">
+      <section className="py-16 bg-brand-light-gray border-b border-brand-border">
         <div className="container-custom">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-brand-border">
             <div>
@@ -142,15 +143,20 @@ export const ProductsPage = () => {
             <Button variant="primary" size="lg" to="/book-demo">
               Book a Demo
             </Button>
-            <a
-              href="tel:8374588099"
-              className="inline-flex items-center justify-center font-medium rounded-lg text-base px-6 py-3 transition-colors bg-transparent text-white border border-white hover:bg-white/10"
+            <Button
+              variant="secondary"
+              size="lg"
+              to="/contact"
+              className="bg-transparent text-white border-white hover:bg-white/10 hover:text-white"
             >
-              Call Sales: +91 83745 88099
-            </a>
+              Contact Sales
+            </Button>
           </div>
         </div>
       </section>
+
+      {/* Follow on Social (Facebook & Instagram) */}
+      <FollowOnSocial />
     </div>
   );
 };

@@ -4,26 +4,8 @@ export const NAVIGATION_ITEMS = [
     to: '/',
   },
   {
-    label: 'Products',
+    label: 'Our Products',
     to: '/products',
-    children: [
-      {
-        title: 'billmaster',
-        to: '/products/billmaster',
-        description: 'Billing software & mobile application ecosystem',
-      },
-      {
-        title: 'Hardware',
-        to: '/products/hardware',
-        description: 'Thermal printers, scanners, label printers & supplies',
-      },
-      {
-        title: 'View All Products',
-        to: '/products',
-        description: 'Explore the full product suite and peripherals',
-        isAction: true,
-      },
-    ],
   },
   {
     label: 'Services',

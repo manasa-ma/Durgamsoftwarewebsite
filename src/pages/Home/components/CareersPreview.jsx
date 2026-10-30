@@ -4,7 +4,6 @@ import { SectionHeader } from '../../../components/common/SectionHeader';
 import { Button } from '../../../components/buttons/Button';
 import { Badge } from '../../../components/common/Badge';
 import { CAREERS_DATA } from '../data';
-
 export const CareersPreview = () => {
   return (
     <section className="bg-brand-light-gray py-16 md:py-24 border-b border-brand-border">
@@ -19,7 +18,7 @@ export const CareersPreview = () => {
           {CAREERS_DATA.positions.slice(0, 2).map((pos) => (
             <div
               key={pos.id}
-              className="p-6 rounded-xl bg-white border border-brand-border flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:shadow-xl hover:border-slate-300 hover:-translate-y-0.5 transition-all duration-300 shadow-xs"
+              className="p-6 rounded-xl bg-white border border-brand-border flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-brand-orange/40 transition-colors shadow-xs"
             >
               <div>
                 <div className="flex items-center gap-2 mb-2">

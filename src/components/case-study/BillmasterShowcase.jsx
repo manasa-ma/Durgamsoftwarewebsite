@@ -7,15 +7,14 @@ import {
   ArrowRight,
   ShieldCheck,
   Printer,
-  WifiOff,
   Radio,
 } from 'lucide-react';
 import {
   BILLMASTER_MOBILE_CASE_STUDY,
   BILLMASTER_DESKTOP_CASE_STUDY,
 } from '../../data/clientReviews';
-import billmasterShowcaseImg from '../../assets/images/about/billmaster-showcase.jpg';
-import serviceMobileImg from '../../assets/images/services/service-mobile-development.jpg';
+import billmasterShowcaseImg from '../../assets/images/about/about-billmaster-showcase.webp';
+import serviceMobileImg from '../../assets/images/services/service-mobile-hero.webp';
 
 export const BillmasterShowcase = ({ type = 'mobile' }) => {
   const isMobile = type === 'mobile';
@@ -76,7 +75,7 @@ export const BillmasterShowcase = ({ type = 'mobile' }) => {
           <div className="flex flex-wrap items-center gap-3">
             <h3 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
               {data.productName}{' '}
-              <span className="text-[#E8683E] text-lg sm:text-xl font-normal block sm:inline">
+              <span className="text-[#C74E23] text-lg sm:text-xl font-normal block sm:inline">
                 ({data.domain})
               </span>
             </h3>
@@ -84,7 +83,7 @@ export const BillmasterShowcase = ({ type = 'mobile' }) => {
               href="https://www.billmasterapp.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-stone-300 hover:border-[#E8683E] text-xs font-bold text-slate-700 hover:text-[#E8683E] shadow-2xs transition-all group"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-stone-300 hover:border-[#C74E23] text-xs font-bold text-slate-700 hover:text-[#C74E23] shadow-2xs transition-all group"
               title="Visit official Billmaster website"
             >
               <span>Visit www.billmasterapp.com</span>
@@ -98,14 +97,14 @@ export const BillmasterShowcase = ({ type = 'mobile' }) => {
 
         {/* Live System Activity Ticker */}
         <div className="bg-white px-4 py-2.5 rounded-2xl border border-stone-200/90 shadow-2xs flex items-center gap-3 max-w-md">
-          <div className="w-8 h-8 rounded-xl bg-orange-50 text-[#E8683E] flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-orange-50 text-[#B83E15] flex items-center justify-center shrink-0">
             {isMobile ? <Radio className="w-4 h-4 animate-pulse" /> : <Printer className="w-4 h-4" />}
           </div>
           <div className="overflow-hidden">
             <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
               <span>LIVE TELEMETRY</span>
-              <span className="w-1 h-1 rounded-full bg-[#E8683E]" />
-              <span className="text-[#E8683E]">{tickerUpdates[tickerIdx].time}</span>
+              <span className="w-1 h-1 rounded-full bg-[#C74E23]" />
+              <span className="text-[#C74E23]">{tickerUpdates[tickerIdx].time}</span>
             </div>
             <p className="text-xs font-medium text-slate-800 truncate">
               {tickerUpdates[tickerIdx].text}
@@ -125,49 +124,20 @@ export const BillmasterShowcase = ({ type = 'mobile' }) => {
               className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
             />
 
-            {/* Software / System Chrome Bar Simulation */}
-            <div className="absolute top-3 left-3 right-3 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-stone-200/80 shadow-sm flex items-center justify-between text-[11px]">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-rose-400 inline-block" />
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block" />
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block" />
-                <span className="ml-2 font-mono text-slate-600 text-[10px] hidden sm:inline">
-                  https://www.billmasterapp.com/{isMobile ? 'mobile-app' : 'desktop-pos'}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-bold text-[10px] flex items-center gap-1">
-                  <WifiOff className="w-2.5 h-2.5" />
-                  <span>100% Offline-Ready</span>
-                </span>
-                <span className="px-2 py-0.5 rounded-md bg-orange-100 text-[#E8683E] font-bold text-[10px]">
-                  Engineered by DS
-                </span>
-              </div>
-            </div>
 
-            {/* Inset Stat Pill */}
-            <div className="absolute bottom-3 right-3 bg-black/90 text-white backdrop-blur-md px-4 py-2.5 rounded-xl shadow-lg border border-white/10 flex items-center gap-3">
-              <span className="text-xl font-black text-[#E8683E] font-mono">
-                {data.stats[0].value}
-              </span>
-              <span className="text-[11px] text-stone-300 font-medium leading-tight">
-                {data.stats[0].label}
-              </span>
-            </div>
           </div>
         </div>
 
         {/* Right: Technical Capabilities & Deliverables */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-50 text-[#E8683E] text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-50 text-[#B83E15] text-xs font-bold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Built by Durgam Soft</span>
           </div>
 
-          <h4 className="text-xl sm:text-2xl font-black text-black tracking-tight leading-tight">
+          <h3 className="text-xl sm:text-2xl font-black text-black tracking-tight leading-tight">
             {isMobile ? 'Mobile Point-of-Sale & Telemetry' : 'Native Windows Counter Billing Engine'}
-          </h4>
+          </h3>
 
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
             {data.summary}
@@ -187,7 +157,7 @@ export const BillmasterShowcase = ({ type = 'mobile' }) => {
               href="https://www.billmasterapp.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-black hover:bg-[#E8683E] text-white text-xs sm:text-sm font-bold transition-all group shadow-sm active:scale-95"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-black hover:bg-[#C74E23] text-white text-xs sm:text-sm font-bold transition-all group shadow-sm active:scale-95"
             >
               <span>Explore www.billmasterapp.com</span>
               <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
@@ -206,9 +176,9 @@ export const BillmasterShowcase = ({ type = 'mobile' }) => {
               ))}
               <span className="text-xs font-black text-black ml-1">5.0 / 5.0</span>
             </div>
-            <h4 className="text-base sm:text-lg font-black text-black tracking-tight">
+            <h3 className="text-base sm:text-lg font-black text-black tracking-tight">
               Verified Retail Store Reviews for Billmaster
-            </h4>
+            </h3>
           </div>
 
           {/* Reviewer Switcher Tabs */}
@@ -220,7 +190,7 @@ export const BillmasterShowcase = ({ type = 'mobile' }) => {
                 onClick={() => setActiveReviewIdx(lIdx)}
                 className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
                   activeReviewIdx === lIdx
-                    ? 'bg-[#E8683E] text-white shadow-2xs'
+                    ? 'bg-[#C74E23] text-white shadow-2xs'
                     : 'bg-white text-slate-600 hover:text-black border border-stone-200'
                 }`}
               >
@@ -237,7 +207,7 @@ export const BillmasterShowcase = ({ type = 'mobile' }) => {
               &ldquo;{activeLeader.quote}&rdquo;
             </p>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#E8683E] text-white font-bold text-sm flex items-center justify-center shrink-0 shadow-2xs">
+              <div className="w-10 h-10 rounded-full bg-[#C74E23] text-white font-bold text-sm flex items-center justify-center shrink-0 shadow-2xs">
                 {activeLeader.avatarInitial}
               </div>
               <div>
@@ -251,7 +221,7 @@ export const BillmasterShowcase = ({ type = 'mobile' }) => {
                   href="https://www.billmasterapp.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-[11px] font-bold text-[#E8683E] hover:underline mt-0.5"
+                  className="inline-flex items-center gap-1 text-[11px] font-bold text-[#C74E23] hover:underline mt-0.5"
                 >
                   <span>www.billmasterapp.com</span>
                   <ExternalLink className="w-2.5 h-2.5" />

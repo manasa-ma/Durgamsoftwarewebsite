@@ -24,6 +24,7 @@ import {
 import { Breadcrumb } from '../../../components/common/Breadcrumb';
 import { Button } from '../../../components/buttons/Button';
 import { updatePageMeta } from '../../../utils/seo';
+import { FollowOnSocial } from '../../../components/common/FollowOnSocial';
 
 const KEY_FEATURES = [
   {
@@ -56,31 +57,31 @@ const BUSINESS_SECTORS = [
   {
     title: 'Retail Stores',
     description: 'Faster billing, better inventory control.',
-    image: '/images/billmaster-business-retail.jpg',
+    image: '/images/billmaster-sector-retail.webp',
     icon: Store,
   },
   {
     title: 'Restaurants & Cafés',
     description: 'Manage orders, tables and bills with ease.',
-    image: '/images/billmaster-business-restaurant.jpg',
+    image: '/images/billmaster-sector-restaurant.webp',
     icon: Utensils,
   },
   {
     title: 'Clothing & Fashion',
     description: 'Track stock and sales seamlessly.',
-    image: '/images/billmaster-business-fashion.jpg',
+    image: '/images/billmaster-sector-fashion.webp',
     icon: Shirt,
   },
   {
     title: 'Supermarkets',
     description: 'Handle high volume with confidence.',
-    image: '/images/billmaster-business-supermarket.jpg',
+    image: '/images/billmaster-sector-supermarket.webp',
     icon: ShoppingCart,
   },
   {
     title: 'Wholesale & Distribution',
     description: 'Complete control over inventory and sales.',
-    image: '/images/billmaster-business-wholesale.jpg',
+    image: '/images/billmaster-sector-wholesale.webp',
     icon: Truck,
   },
 ];
@@ -95,17 +96,17 @@ const HARDWARE_ITEMS = [
   {
     title: 'Thermal Printers',
     description: 'Print clear receipts, every time.',
-    image: '/images/hardware-thermal-printer.jpg',
+    image: '/images/hardware-thermal-printer.webp',
   },
   {
     title: 'Barcode Scanners',
     description: 'Fast and accurate scanning.',
-    image: '/images/hardware-barcode-scanner.jpg',
+    image: '/images/hardware-barcode-scanner.webp',
   },
   {
     title: 'Thermal Paper Rolls',
     description: 'Compatible with major printers.',
-    image: '/images/hardware-paper-rolls.jpg',
+    image: '/images/hardware-paper-rolls.webp',
   },
 ];
 
@@ -193,7 +194,7 @@ export const BillmasterPage = () => {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-brand-orange text-white font-bold text-sm shadow-md hover:bg-orange-600 transition-all shadow-orange-500/20 active:scale-95"
                 >
-                  <span>Explore Billmaster</span>
+                  <span>Explore Billmaster App</span>
                   <ArrowRight className="w-4 h-4" />
                 </a>
                 <Button
@@ -208,12 +209,19 @@ export const BillmasterPage = () => {
 
             {/* Right Graphic Column: Devices Mockup */}
             <div className="lg:col-span-6 relative flex items-center justify-center mt-4 lg:mt-0">
-              <div className="relative w-full max-w-xl transition-transform duration-500 hover:scale-[1.01]">
-                <img
-                  src="/images/billmaster-smart-billing.jpg"
-                  alt="Billmaster Smart Billing — Mobile App, 2 Inch Printer, Barcode Scanner, and Cloud Dashboard"
-                  className="w-full h-auto object-contain drop-shadow-2xl rounded-2xl"
-                />
+              <div className="relative w-full max-w-xl aspect-[16/9] transition-transform duration-500 hover:scale-[1.01]">
+                <picture>
+                  <source srcSet="/images/billmaster-smart-billing.webp" type="image/webp" />
+                  <img
+                    src="/images/billmaster-smart-billing.webp"
+                    alt="Billmaster Smart Billing — Mobile App, 2 Inch Printer, Barcode Scanner, and Cloud Dashboard"
+                    width={576}
+                    height={324}
+                    loading="eager"
+                    fetchpriority="high"
+                    className="w-full h-full object-contain drop-shadow-2xl rounded-2xl"
+                  />
+                </picture>
               </div>
             </div>
           </div>
@@ -275,7 +283,7 @@ export const BillmasterPage = () => {
             </div>
             <a
               href="#features"
-              className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-sky-600 hover:text-brand-orange transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-sky-700 hover:text-brand-orange transition-colors"
             >
               <span>VIEW ALL FEATURES</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -294,11 +302,18 @@ export const BillmasterPage = () => {
                   <div>
                     {/* Card Photo Container */}
                     <div className="h-32 sm:h-36 overflow-hidden relative bg-slate-100">
-                      <img
-                        src={sector.image}
-                        alt={sector.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
+                      <picture>
+                        <source srcSet={sector.image} type="image/webp" />
+                        <img
+                          src={sector.image}
+                          alt={sector.title}
+                          loading="lazy"
+                          decoding="async"
+                          width={280}
+                          height={144}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </picture>
                       {/* Top-Right Circular Orange Badge */}
                       <div className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-brand-orange text-white flex items-center justify-center shadow-xs">
                         <IconComp className="w-3.5 h-3.5" />
@@ -365,7 +380,7 @@ export const BillmasterPage = () => {
                       <path d="M0 3.449L9.75 2.1v9.451H0V3.449zm0 17.1L9.75 21.9v-9.45H0v8.099zm10.702 1.35l13.298 1.901V11.55H10.702v10.35zm0-19.8L24 0.2v11.35H10.702V2.1z" />
                     </svg>
                     <span className="text-xs font-bold text-brand-navy group-hover:text-brand-orange transition-colors">Windows</span>
-                    <span className="text-[10px] text-slate-400">Desktop</span>
+                    <span className="text-[10px] text-slate-500 font-medium">Desktop</span>
                   </a>
 
                   {/* Android */}
@@ -384,18 +399,25 @@ export const BillmasterPage = () => {
                       <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.411 13.8564 8 12 8s-3.5902.411-5.1368.9507L4.841 5.4477a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396" />
                     </svg>
                     <span className="text-xs font-bold text-brand-navy group-hover:text-brand-orange transition-colors">Android</span>
-                    <span className="text-[10px] text-slate-400">Mobile App</span>
+                    <span className="text-[10px] text-slate-500 font-medium">Mobile App</span>
                   </a>
                 </div>
               </div>
 
               {/* Right Column (6 cols): Sync Devices Graphic */}
               <div className="lg:col-span-6 flex items-center justify-center">
-                <img
-                  src="/images/billmaster-device-sync.jpg"
-                  alt="Billmaster across Desktop, Tablet and Mobile"
-                  className="w-full max-w-lg lg:max-w-xl h-auto object-contain drop-shadow-2xl rounded-2xl transition-transform duration-500 hover:scale-[1.02]"
-                />
+                <picture>
+                  <source srcSet="/images/billmaster-device-sync.webp" type="image/webp" />
+                  <img
+                    src="/images/billmaster-device-sync.webp"
+                    alt="Billmaster across Desktop, Tablet and Mobile"
+                    loading="lazy"
+                    decoding="async"
+                    width={576}
+                    height={324}
+                    className="w-full max-w-lg lg:max-w-xl aspect-[16/9] object-contain drop-shadow-2xl rounded-2xl transition-transform duration-500 hover:scale-[1.02]"
+                  />
+                </picture>
               </div>
             </div>
           </div>
@@ -456,17 +478,18 @@ export const BillmasterPage = () => {
                 })}
               </div>
 
-              {/* CTA Button */}
+              {/* CTA Button (Disabled) */}
               <div className="mt-8">
-                <a
-                  href="https://billmasterapp.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-brand-orange text-white font-bold text-sm shadow-md hover:bg-orange-600 transition-all shadow-orange-500/20 active:scale-95"
+                <button
+                  type="button"
+                  disabled
+                  aria-disabled="true"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-slate-200 text-slate-400 font-bold text-sm cursor-not-allowed select-none opacity-80"
+                  title="Order Now is currently disabled"
                 >
                   <span>Order Now</span>
                   <ArrowRight className="w-4 h-4" />
-                </a>
+                </button>
               </div>
             </div>
 
@@ -498,11 +521,18 @@ export const BillmasterPage = () => {
               </div>
 
               <div className="relative w-full max-w-lg transition-transform duration-500 hover:scale-[1.01]">
-                <img
-                  src="/images/hardware-hero-bundle.jpg"
-                  alt="Billmaster Hardware & Supplies Bundle"
-                  className="w-full h-auto object-contain drop-shadow-2xl rounded-2xl"
-                />
+                <picture>
+                  <source srcSet="/images/billmaster-hardware-bundle.webp" type="image/webp" />
+                  <img
+                    src="/images/billmaster-hardware-bundle.webp"
+                    alt="Billmaster Hardware & Supplies Bundle"
+                    loading="lazy"
+                    decoding="async"
+                    width={512}
+                    height={320}
+                    className="w-full aspect-[16/10] object-contain drop-shadow-2xl rounded-2xl"
+                  />
+                </picture>
               </div>
             </div>
           </div>
@@ -516,16 +546,27 @@ export const BillmasterPage = () => {
               >
                 <div>
                   <div className="h-36 sm:h-40 w-full overflow-hidden rounded-xl bg-slate-50/70 flex items-center justify-center mb-3.5 p-3 relative">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="max-h-full max-w-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
-                    />
+                    <picture>
+                      <source srcSet={item.image} type="image/webp" />
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        loading="lazy"
+                        decoding="async"
+                        width={240}
+                        height={160}
+                        className="max-h-full max-w-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </picture>
                     {/* Official billmaster logo badge */}
                     <div className="absolute top-2.5 left-2.5 z-10 shadow-xs">
                       <img
-                        src="/images/billmaster-logo.png"
+                        src="/images/billmaster-logo.webp"
                         alt="billmaster"
+                        width={60}
+                        height={14}
+                        loading="lazy"
+                        decoding="async"
                         className="h-3.5 w-auto object-contain rounded-xs"
                       />
                     </div>
@@ -566,6 +607,9 @@ export const BillmasterPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Follow on Social (Facebook & Instagram) */}
+      <FollowOnSocial />
     </div>
   );
 };

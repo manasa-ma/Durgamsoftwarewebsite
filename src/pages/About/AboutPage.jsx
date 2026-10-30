@@ -15,18 +15,18 @@ import { Breadcrumb } from '../../components/common/Breadcrumb';
 import { Button } from '../../components/buttons/Button';
 import { updatePageMeta } from '../../utils/seo';
 
-// Original High-Definition Assets from Reference Template
-import heroBento1 from '../../assets/images/about/hero-bento-1.avif';
-import heroBento2 from '../../assets/images/about/hero-bento-2.avif';
-import heroBento3 from '../../assets/images/about/hero-bento-3.avif';
-import founderOfficeImg from '../../assets/images/about/founder-office.avif';
-import capabilitiesTeamImg from '../../assets/images/about/capabilities-team.jpg';
-import billmasterShowcaseImg from '../../assets/images/about/billmaster-showcase.jpg';
+// High-Definition WebP Assets
+import heroBento1 from '../../assets/images/about/about-hero-bento-1.webp';
+import heroBento2 from '../../assets/images/about/about-hero-bento-2.webp';
+import heroBento3 from '../../assets/images/about/about-hero-bento-3.webp';
+import founderVenuDurgamWebp from '../../assets/images/about/about-founder-venu-durgam.webp';
+import capabilitiesTeamWebp from '../../assets/images/about/about-capabilities-team.webp';
+import billmasterShowcaseWebp from '../../assets/images/about/about-billmaster-showcase.webp';
 
 // Testimonial Avatars
-import testi1 from '../../assets/images/about/testi-1.png';
-import testi2 from '../../assets/images/about/testi-2.png';
-import testi3 from '../../assets/images/about/testi-3.png';
+import testi1 from '../../assets/images/about/testimonial-avatar-1.webp';
+import testi2 from '../../assets/images/about/testimonial-avatar-2.webp';
+import testi3 from '../../assets/images/about/testimonial-avatar-3.webp';
 
 export const AboutPage = () => {
   const [stat90, setStat90] = useState(0);
@@ -132,7 +132,7 @@ export const AboutPage = () => {
             {/* Middle Column: Orange Stat Card (Top) + Team Photo (Bottom) */}
             <div className="md:col-span-4 flex flex-col gap-5 justify-between">
               {/* Orange Stat Card (SlideInUp Orange) */}
-              <div className="bg-[#E8683E] rounded-3xl p-8 sm:p-9 text-white flex flex-col justify-between shadow-xs min-h-[190px] animate-hero-card-orange hover:-translate-y-1.5 hover:shadow-xl transition-all duration-500 group cursor-default">
+              <div className="bg-[#C74E23] rounded-3xl p-8 sm:p-9 text-white flex flex-col justify-between shadow-xs min-h-[190px] animate-hero-card-orange hover:-translate-y-1.5 hover:shadow-xl transition-all duration-500 group cursor-default">
                 <span className="text-5xl font-black tracking-tight block transition-transform duration-300 group-hover:scale-105 origin-left">
                   {stat90}%
                 </span>
@@ -211,7 +211,7 @@ export const AboutPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Left Column: Narrative Paragraphs */}
             <div className="lg:col-span-7 space-y-6">
-              <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#E8683E] block">
+              <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#B83E15] block">
                 Our Capabilities
               </span>
 
@@ -236,7 +236,7 @@ export const AboutPage = () => {
               {/* Three Core Areas List */}
               <div className="space-y-3.5 pt-2">
                 <div className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-full bg-orange-100 text-[#E8683E] flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="w-5 h-5 rounded-full bg-orange-100 text-[#B83E15] flex items-center justify-center shrink-0 mt-0.5">
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </div>
                   <div className="text-sm sm:text-base">
@@ -248,7 +248,7 @@ export const AboutPage = () => {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-full bg-orange-100 text-[#E8683E] flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="w-5 h-5 rounded-full bg-orange-100 text-[#B83E15] flex items-center justify-center shrink-0 mt-0.5">
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </div>
                   <div className="text-sm sm:text-base">
@@ -260,7 +260,7 @@ export const AboutPage = () => {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-full bg-orange-100 text-[#E8683E] flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="w-5 h-5 rounded-full bg-orange-100 text-[#B83E15] flex items-center justify-center shrink-0 mt-0.5">
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </div>
                   <div className="text-sm sm:text-base">
@@ -286,7 +286,7 @@ export const AboutPage = () => {
 
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-2 text-base font-bold text-[#E8683E] hover:text-[#d85c32] group py-3 px-4"
+                  className="inline-flex items-center gap-2 text-base font-bold text-[#B83E15] hover:text-[#d85c32] group py-3 px-4"
                 >
                   <span>Talk to Our Team</span>
                   <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
@@ -297,11 +297,18 @@ export const AboutPage = () => {
             {/* Right Column: Simple Clean Image */}
             <div className="lg:col-span-5">
               <div className="rounded-3xl overflow-hidden shadow-xs border border-stone-200 bg-white">
-                <img
-                  src={capabilitiesTeamImg}
-                  alt="Durgam Soft engineering and marketing team collaborating"
-                  className="w-full h-[520px] object-cover"
-                />
+                <picture>
+                  <source srcSet={capabilitiesTeamWebp} type="image/webp" />
+                  <img
+                    src={capabilitiesTeamWebp}
+                    alt="Durgam Soft engineering and marketing team collaborating"
+                    loading="lazy"
+                    decoding="async"
+                    width={500}
+                    height={520}
+                    className="w-full h-[520px] object-cover"
+                  />
+                </picture>
               </div>
             </div>
           </div>
@@ -316,7 +323,7 @@ export const AboutPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Left Narrative & CTAs */}
             <div className="lg:col-span-6 space-y-6">
-              <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#E8683E] block">
+              <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#B83E15] block">
                 Flagship Proprietary Product
               </span>
 
@@ -335,7 +342,7 @@ export const AboutPage = () => {
               {/* Hardware & Feature Pills */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                 <div className="p-3.5 rounded-2xl bg-white border border-stone-200 flex items-center gap-3 shadow-2xs">
-                  <Printer className="w-5 h-5 text-[#E8683E] shrink-0" />
+                  <Printer className="w-5 h-5 text-[#C74E23] shrink-0" />
                   <div>
                     <div className="font-bold text-black text-sm">Thermal Printers</div>
                     <div className="text-xs text-slate-500">2" & 3" Fast Counter Printing</div>
@@ -343,7 +350,7 @@ export const AboutPage = () => {
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-white border border-stone-200 flex items-center gap-3 shadow-2xs">
-                  <Barcode className="w-5 h-5 text-[#E8683E] shrink-0" />
+                  <Barcode className="w-5 h-5 text-[#C74E23] shrink-0" />
                   <div>
                     <div className="font-bold text-black text-sm">Barcode Scanners</div>
                     <div className="text-xs text-slate-500">1D & 2D QR Rapid Capture</div>
@@ -351,7 +358,7 @@ export const AboutPage = () => {
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-white border border-stone-200 flex items-center gap-3 shadow-2xs">
-                  <Layers className="w-5 h-5 text-[#E8683E] shrink-0" />
+                  <Layers className="w-5 h-5 text-[#C74E23] shrink-0" />
                   <div>
                     <div className="font-bold text-black text-sm">Label Printers & Supplies</div>
                     <div className="text-xs text-slate-500">Direct Thermal Rolls & Labels</div>
@@ -359,7 +366,7 @@ export const AboutPage = () => {
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-white border border-stone-200 flex items-center gap-3 shadow-2xs">
-                  <Sparkles className="w-5 h-5 text-[#E8683E] shrink-0" />
+                  <Sparkles className="w-5 h-5 text-[#C74E23] shrink-0" />
                   <div>
                     <div className="font-bold text-black text-sm">Mobile Billing App</div>
                     <div className="text-xs text-slate-500">Real-Time Cloud Inventory Sync</div>
@@ -394,11 +401,18 @@ export const AboutPage = () => {
             {/* Right: billmaster Official Product Showcase Image */}
             <div className="lg:col-span-6">
               <div className="rounded-3xl overflow-hidden shadow-md border border-stone-200/80 bg-white group hover:shadow-xl transition-all duration-300">
-                <img
-                  src={billmasterShowcaseImg}
-                  alt="billmaster Smart Billing Solution - Software, App, and POS Hardware Ecosystem"
-                  className="w-full h-auto object-cover block transition-transform duration-500 group-hover:scale-[1.02]"
-                />
+                <picture>
+                  <source srcSet={billmasterShowcaseWebp} type="image/webp" />
+                  <img
+                    src={billmasterShowcaseWebp}
+                    alt="billmaster Smart Billing Solution - Software, App, and POS Hardware Ecosystem"
+                    loading="lazy"
+                    decoding="async"
+                    width={600}
+                    height={400}
+                    className="w-full h-auto object-cover block transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
+                </picture>
               </div>
             </div>
           </div>
@@ -412,14 +426,14 @@ export const AboutPage = () => {
         <div className="container-custom max-w-6xl">
           {/* Section Header */}
           <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
-            <span className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#E8683E] block mb-3">
+            <span className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#B83E15] block mb-3">
               OUR PURPOSE
             </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-black tracking-tight leading-tight uppercase">
               MISSION &amp; VISION
             </h2>
             {/* Warm brand accent bar */}
-            <div className="w-16 h-1 bg-[#E8683E] rounded-full mx-auto mt-4" />
+            <div className="w-16 h-1 bg-[#C74E23] rounded-full mx-auto mt-4" />
           </div>
 
           {/* 2-Column Cards Grid */}
@@ -427,8 +441,8 @@ export const AboutPage = () => {
             {/* Mission Card */}
             <div className="rounded-3xl bg-[#FAF7F2] border border-stone-200/90 p-8 sm:p-12 shadow-xs hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               {/* Pill Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-100 border border-orange-200 text-[#E8683E] text-xs font-bold uppercase tracking-wider mb-6">
-                <Target className="w-3.5 h-3.5 text-[#E8683E]" />
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-100 border border-orange-200 text-[#B83E15] text-xs font-bold uppercase tracking-wider mb-6">
+                <Target className="w-3.5 h-3.5 text-[#C74E23]" />
                 <span>MISSION</span>
               </div>
 
@@ -437,7 +451,7 @@ export const AboutPage = () => {
               </h3>
 
               {/* Single Quote Capturing Entire Business */}
-              <p className="text-xl sm:text-2xl font-bold text-slate-800 leading-snug border-l-4 border-[#E8683E] pl-5 italic">
+              <p className="text-xl sm:text-2xl font-bold text-slate-800 leading-snug border-l-4 border-[#C74E23] pl-5 italic">
                 &ldquo;To empower businesses of every size with intuitive, dependable technology that eliminates operational complexity and drives everyday growth.&rdquo;
               </p>
             </div>
@@ -446,7 +460,7 @@ export const AboutPage = () => {
             <div className="rounded-3xl bg-[#FAF7F2] border border-stone-200/90 p-8 sm:p-12 shadow-xs hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               {/* Pill Badge */}
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-200/80 border border-stone-300 text-slate-800 text-xs font-bold uppercase tracking-wider mb-6">
-                <Eye className="w-3.5 h-3.5 text-[#E8683E]" />
+                <Eye className="w-3.5 h-3.5 text-[#C74E23]" />
                 <span>VISION</span>
               </div>
 
@@ -489,7 +503,7 @@ export const AboutPage = () => {
 
               <div className="pt-2">
                 <h3 className="font-bold text-xl text-black">
-                  Venu Durgam
+                  Durgam Venu Gopal
                 </h3>
                 <p className="text-sm font-medium text-slate-500 mt-0.5">
                   Founder & CEO, Durgam Soft Pvt. Ltd.
@@ -499,12 +513,19 @@ export const AboutPage = () => {
 
             {/* Right Photo */}
             <div className="lg:col-span-6">
-              <div className="rounded-3xl overflow-hidden shadow-xs border border-slate-200">
-                <img
-                  src={founderOfficeImg}
-                  alt="Venu Durgam, Founder & CEO"
-                  className="w-full h-auto object-cover block"
-                />
+              <div className="rounded-3xl overflow-hidden shadow-xl border border-slate-200 group">
+                <picture>
+                  <source srcSet={founderVenuDurgamWebp} type="image/webp" />
+                  <img
+                    src={founderVenuDurgamWebp}
+                    alt="Durgam Venu Gopal, Founder & CEO"
+                    loading="lazy"
+                    decoding="async"
+                    width={600}
+                    height={400}
+                    className="w-full h-auto object-cover block transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
+                </picture>
               </div>
             </div>
           </div>
@@ -543,7 +564,7 @@ export const AboutPage = () => {
                           href={t.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-slate-400 hover:text-[#E8683E] transition-colors"
+                          className="text-slate-500 hover:text-[#C74E23] transition-colors"
                           title="Visit live client website"
                         >
                           <ExternalLink className="w-3 h-3" />

@@ -12,9 +12,12 @@ import {
   Sparkles,
   Building2,
   RotateCcw,
+  FileText,
+  Paperclip,
 } from 'lucide-react';
 import { Breadcrumb } from '../../components/common/Breadcrumb';
 import { Button } from '../../components/buttons/Button';
+import { ResumeUploadField, formatFileSize } from '../../components/common/ResumeUploadField';
 import { updatePageMeta } from '../../utils/seo';
 import { CAREERS_PAGE_DATA } from '../../data/careers';
 
@@ -23,9 +26,11 @@ export const JobDetailsPage = () => {
   const formRef = useRef(null);
   const [submitted, setSubmitted] = useState(false);
 
+  // Lookup from static careers data
   const job = CAREERS_PAGE_DATA.positions.find(
     (p) => p.id === jobId || p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') === jobId
-  );
+  ) || null;
+  const loading = false;
 
   const [formData, setFormData] = useState({
     name: '',
@@ -33,24 +38,28 @@ export const JobDetailsPage = () => {
     phone: '',
     location: '',
     experience: '',
-    resumeLink: '',
     coverNote: '',
   });
+  const [resumeFile, setResumeFile] = useState(null);
+  const [fileError, setFileError] = useState('');
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     if (job) {
+      const locationStr = Array.isArray(job.locations)
+        ? job.locations.join(', ')
+        : (job.location || 'Hyderabad');
       updatePageMeta({
         title: `${job.title} — Careers | Durgam Soft`,
-        description: `Apply for the ${job.title} opening at Durgam Soft in ${job.locations.join(', ')}. ${job.experience} experience, ${job.salary}.`,
+        description: `Apply for the ${job.title} opening at Durgam Soft in ${locationStr}. ${job.experience} experience, ${job.salary || 'Competitive'}.`,
       });
-    } else {
+    } else if (!loading) {
       updatePageMeta({
         title: 'Career Opening Not Found | Durgam Soft',
         description: 'Browse active career openings at Durgam Soft.',
       });
     }
-  }, [job]);
+  }, [job, loading]);
 
   const handleScrollToForm = () => {
     if (formRef.current) {
@@ -63,6 +72,9 @@ export const JobDetailsPage = () => {
   };
 
   const formatEmailBody = () => {
+    const resumeInfo = resumeFile
+      ? `${resumeFile.name} (${formatFileSize(resumeFile.size)})`
+      : 'Not Attached (Will attach to email)';
     return (
       `Hello Durgam Soft Recruitment Team,\n\n` +
       `A new job application has been submitted for: ${job?.title || 'Open Position'}\n\n` +
@@ -76,28 +88,35 @@ export const JobDetailsPage = () => {
       `Position Applied:    ${job?.title || 'Open Position'}\n` +
       `Relevant Experience: ${formData.experience}\n\n` +
       `--------------------------------------------------\n` +
-      `RESUME / PORTFOLIO LINK\n` +
+      `RESUME ATTACHMENT\n` +
       `--------------------------------------------------\n` +
-      `Resume URL:          ${formData.resumeLink}\n\n` +
+      `Uploaded Resume:     ${resumeInfo}\n\n` +
       `--------------------------------------------------\n` +
       `COVER NOTE / MESSAGE\n` +
       `--------------------------------------------------\n` +
       `${formData.coverNote || 'Not Provided'}\n\n` +
       `--------------------------------------------------\n` +
       `Sent via: Durgam Soft Careers Portal (www.durgamsoft.com/careers/${job?.id || ''})\n` +
-      `Applicant Note: If attaching a local PDF/DOC resume, please attach the document directly to this email.`
+      `Applicant Note: Please attach the selected resume file (${resumeFile?.name || 'resume'}) to this email message.`
     );
   };
 
   const emailSubject = `[Job Application] ${job?.title || 'Position'} - ${formData.name || 'Applicant'}`;
-  const mailtoLink = `mailto:careers@durgamsoft.com?subject=${encodeURIComponent(
+
+  const gmailComposeLink = `https://mail.google.com/mail/?view=cm&fs=1&to=careers@durgamsoft.com&su=${encodeURIComponent(
     emailSubject
   )}&body=${encodeURIComponent(formatEmailBody())}`;
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
+    if (!resumeFile) {
+      setFileError('Please upload your resume (PDF, DOC, or DOCX)');
+      return;
+    }
+
     try {
-      window.location.href = mailtoLink;
+      // Directly open Web Email (Gmail) in browser instead of desktop Outlook
+      window.open(gmailComposeLink, '_blank', 'noopener,noreferrer');
     } catch {
       // Fallback handled smoothly by UI state
     }
@@ -106,13 +125,14 @@ export const JobDetailsPage = () => {
 
   const handleReset = () => {
     setSubmitted(false);
+    setResumeFile(null);
+    setFileError('');
     setFormData({
       name: '',
       email: '',
       phone: '',
       location: '',
       experience: '',
-      resumeLink: '',
       coverNote: '',
     });
   };
@@ -155,7 +175,7 @@ export const JobDetailsPage = () => {
           {/* Back link */}
           <Link
             to="/careers"
-            className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-[#E8683E] uppercase tracking-wider mb-6 transition-colors group"
+            className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-[#C74E23] uppercase tracking-wider mb-6 transition-colors group"
           >
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
             <span>Back to All Openings</span>
@@ -165,7 +185,7 @@ export const JobDetailsPage = () => {
             <div className="space-y-3">
               {/* Department & Experience Pill */}
               <div className="flex flex-wrap items-center gap-2">
-                <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-orange-100 text-[#E8683E] border border-orange-200">
+                <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-orange-100 text-[#B83E15] border border-orange-200">
                   {job.department}
                 </span>
                 <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-stone-100 text-slate-700">
@@ -184,12 +204,16 @@ export const JobDetailsPage = () => {
               {/* Locations & Compensation Meta */}
               <div className="flex flex-wrap items-center gap-5 text-sm sm:text-base text-slate-600 pt-1">
                 <span className="inline-flex items-center gap-1.5 font-medium">
-                  <MapPin className="w-4 h-4 text-[#E8683E]" />
-                  <span>{job.locations.join(', ')}</span>
+                  <MapPin className="w-4 h-4 text-[#C74E23]" />
+                  <span>
+                    {Array.isArray(job.locations)
+                      ? job.locations.join(', ')
+                      : (job.location || 'Hyderabad')}
+                  </span>
                 </span>
                 <span className="inline-flex items-center gap-1.5 font-bold text-black bg-[#FAF7F2] px-3.5 py-1.5 rounded-xl border border-stone-200">
                   <span>Salary / Stipend:</span>
-                  <span className="text-[#E8683E]">{job.salary}</span>
+                  <span className="text-[#C74E23]">{job.salary || 'Competitive'}</span>
                 </span>
               </div>
             </div>
@@ -202,7 +226,7 @@ export const JobDetailsPage = () => {
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black hover:bg-slate-800 text-white font-bold text-base shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-200 cursor-pointer"
               >
                 <span>Apply for this Role</span>
-                <Send className="w-4 h-4 text-[#E8683E]" />
+                <Send className="w-4 h-4 text-[#C74E23]" />
               </button>
             </div>
           </div>
@@ -219,29 +243,29 @@ export const JobDetailsPage = () => {
             <div className="lg:col-span-7 space-y-8">
               {/* Job Overview */}
               <div className="p-8 sm:p-10 rounded-3xl bg-white border border-stone-200/90 shadow-xs">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#E8683E] block mb-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#C74E23] block mb-2">
                   Role Overview
                 </span>
                 <h2 className="text-2xl font-black text-black tracking-tight mb-4">
                   About the Opportunity
                 </h2>
                 <p className="text-base text-slate-700 leading-relaxed font-normal">
-                  {job.overview}
+                  {job.overview || job.description}
                 </p>
               </div>
 
               {/* Key Responsibilities */}
               <div className="p-8 sm:p-10 rounded-3xl bg-white border border-stone-200/90 shadow-xs space-y-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#E8683E] block mb-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#C74E23] block mb-1">
                   What You Will Do
                 </span>
                 <h3 className="text-2xl font-black text-black tracking-tight mb-4">
                   Key Responsibilities
                 </h3>
                 <ul className="space-y-3">
-                  {job.responsibilities.map((resp, idx) => (
+                  {(job.responsibilities || []).map((resp, idx) => (
                     <li key={idx} className="flex items-start gap-3 text-sm sm:text-base text-slate-700 leading-relaxed">
-                      <div className="w-5 h-5 rounded-full bg-orange-100 text-[#E8683E] flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="w-5 h-5 rounded-full bg-orange-100 text-[#B83E15] flex items-center justify-center shrink-0 mt-0.5">
                         <Check className="w-3.5 h-3.5 stroke-[3]" />
                       </div>
                       <span>{resp}</span>
@@ -253,14 +277,14 @@ export const JobDetailsPage = () => {
               {/* Required Skills & Qualifications */}
               <div className="p-8 sm:p-10 rounded-3xl bg-white border border-stone-200/90 shadow-xs space-y-6">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#E8683E] block mb-1">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#C74E23] block mb-1">
                     Candidate Profile
                   </span>
                   <h3 className="text-2xl font-black text-black tracking-tight mb-4">
                     Required Skills &amp; Qualifications
                   </h3>
                   <ul className="space-y-3">
-                    {job.requirements.map((req, idx) => (
+                    {(job.requirements || []).map((req, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-sm sm:text-base text-slate-700 leading-relaxed">
                         <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
                         <span>{req}</span>
@@ -270,15 +294,18 @@ export const JobDetailsPage = () => {
                 </div>
 
                 {/* Preferred Skills */}
-                {job.preferredSkills && (
+                {(job.preferredSkills || job.skills) && (
                   <div className="pt-6 border-t border-stone-100">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
                       Preferred / Advantageous Skills
                     </h4>
                     <ul className="space-y-2">
-                      {job.preferredSkills.map((pref, idx) => (
+                      {(Array.isArray(job.preferredSkills)
+                        ? job.preferredSkills
+                        : (Array.isArray(job.skills) ? job.skills : [])
+                      ).map((pref, idx) => (
                         <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600">
-                          <span className="text-[#E8683E] font-black">•</span>
+                          <span className="text-[#C74E23] font-black">•</span>
                           <span>{pref}</span>
                         </li>
                       ))}
@@ -290,7 +317,7 @@ export const JobDetailsPage = () => {
               {/* Benefits & Perks */}
               {job.benefits && (
                 <div className="p-8 sm:p-10 rounded-3xl bg-white border border-stone-200/90 shadow-xs">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#E8683E] block mb-1">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#C74E23] block mb-1">
                     Perks &amp; Incentives
                   </span>
                   <h3 className="text-2xl font-black text-black tracking-tight mb-4">
@@ -302,7 +329,7 @@ export const JobDetailsPage = () => {
                         key={idx}
                         className="p-3.5 rounded-2xl bg-[#FAF7F2] border border-stone-200 flex items-center gap-3 text-xs sm:text-sm font-semibold text-slate-800"
                       >
-                        <Award className="w-4 h-4 text-[#E8683E] shrink-0" />
+                        <Award className="w-4 h-4 text-[#C74E23] shrink-0" />
                         <span>{ben}</span>
                       </li>
                     ))}
@@ -320,7 +347,7 @@ export const JobDetailsPage = () => {
                 className="p-8 sm:p-9 rounded-3xl bg-white border border-stone-200/90 shadow-md hover:shadow-xl transition-all duration-300"
               >
                 <div className="mb-6">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-[#E8683E] text-xs font-bold uppercase tracking-wider mb-2">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-[#B83E15] text-xs font-bold uppercase tracking-wider mb-2">
                     <Sparkles className="w-3.5 h-3.5" />
                     <span>Quick Apply</span>
                   </div>
@@ -339,17 +366,29 @@ export const JobDetailsPage = () => {
                     </div>
 
                     <div>
-                      <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 block mb-1">
-                        Application Dispatched
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-black uppercase tracking-wider mb-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        Application Received &amp; Under Review
                       </span>
-                      <h4 className="text-xl sm:text-2xl font-black text-black tracking-tight mb-1.5">
+                      <h4 className="text-xl sm:text-2xl font-black text-black tracking-tight mb-2">
                         Thank You, {formData.name || 'Applicant'}!
                       </h4>
-                      <p className="text-xs sm:text-sm text-slate-600 max-w-sm mx-auto leading-relaxed">
-                        Your application details and resume link for <strong>{job.title}</strong> have been formatted for{' '}
-                        <strong className="text-black font-semibold">careers@durgamsoft.com</strong>.
-                        Our HR team reviews every application within 48 hours.
-                      </p>
+
+                      {/* Immediate Candidate Acknowledgment Banner */}
+                      <div className="p-4 rounded-2xl bg-gradient-to-r from-orange-50/90 via-amber-50/60 to-orange-50/90 border border-orange-200 text-left space-y-2 max-w-sm mx-auto shadow-2xs">
+                        <p className="text-xs sm:text-sm text-slate-800 font-medium leading-relaxed">
+                          Thanks for applying for the <strong className="text-[#C74E23] font-black">{job.title}</strong> position! We have received your application and resume.
+                        </p>
+                        <p className="text-xs text-slate-600 leading-relaxed">
+                          Our recruitment team is <strong>currently reviewing your application</strong> against the role requirements. <strong>We will get back to you directly when you are selected for the next round</strong> (technical assessment or interview).
+                        </p>
+                        <div className="pt-1.5 border-t border-orange-200/70 flex items-center gap-2 text-[11px] text-slate-500">
+                          <Mail className="w-3.5 h-3.5 text-[#C74E23] shrink-0" />
+                          <span>
+                            Confirmation dispatched to <strong className="text-slate-800">{formData.email}</strong>.
+                          </span>
+                        </div>
+                      </div>
                     </div>
 
                     {/* Structured Summary Card */}
@@ -371,26 +410,39 @@ export const JobDetailsPage = () => {
                         </div>
                         <div>
                           <span className="text-slate-400 font-semibold block text-[10px] uppercase">Position &amp; Exp</span>
-                          <span className="font-bold text-[#E8683E] block">{job.title}</span>
+                          <span className="font-bold text-[#C74E23] block">{job.title}</span>
                           <span className="text-slate-600 block text-[11px]">{formData.experience || 'Not Specified'} • {formData.location}</span>
                         </div>
                       </div>
 
                       <div className="pt-1">
-                        <span className="text-slate-400 font-semibold block text-[10px] uppercase">Resume / Portfolio Link</span>
-                        {formData.resumeLink ? (
-                          <a
-                            href={formData.resumeLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline font-medium break-all block mt-0.5"
-                          >
-                            {formData.resumeLink}
-                          </a>
+                        <span className="text-slate-400 font-semibold block text-[10px] uppercase mb-1">Uploaded Resume</span>
+                        {resumeFile ? (
+                          <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white border border-stone-200">
+                            <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                              <FileText className="w-4 h-4" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <span className="font-bold text-slate-900 text-xs truncate block">{resumeFile.name}</span>
+                              <span className="text-[10px] text-slate-500">{formatFileSize(resumeFile.size)}</span>
+                            </div>
+                            <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold shrink-0">
+                              Attached
+                            </span>
+                          </div>
                         ) : (
-                          <span className="text-slate-500 italic">Not Provided</span>
+                          <span className="text-slate-500 italic">Not Attached</span>
                         )}
                       </div>
+
+                      {resumeFile && (
+                        <div className="p-3 rounded-xl bg-orange-50/80 border border-orange-200/80 text-[11px] text-stone-700 flex items-start gap-2">
+                          <Paperclip className="w-3.5 h-3.5 text-[#C74E23] shrink-0 mt-0.5" />
+                          <p className="leading-relaxed">
+                            <strong>Important:</strong> When your email client opens, please attach <strong>{resumeFile.name}</strong> to the drafted email before sending.
+                          </p>
+                        </div>
+                      )}
 
                       {formData.coverNote && (
                         <div className="pt-1">
@@ -405,11 +457,13 @@ export const JobDetailsPage = () => {
                     {/* Action buttons */}
                     <div className="space-y-2.5 pt-1">
                       <a
-                        href={mailtoLink}
-                        className="w-full inline-flex items-center justify-center gap-2 py-3 px-6 rounded-xl bg-[#E8683E] hover:bg-orange-600 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
+                        href={gmailComposeLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full inline-flex items-center justify-center gap-2 py-3 px-6 rounded-xl bg-[#C74E23] hover:bg-orange-600 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
                       >
                         <Mail className="w-4 h-4" />
-                        <span>Open in Email App (careers@durgamsoft.com)</span>
+                        <span>Send via Web Email (Gmail)</span>
                       </a>
 
                       <button
@@ -425,99 +479,105 @@ export const JobDetailsPage = () => {
                 ) : (
                   <form onSubmit={handleFormSubmit} className="space-y-4">
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                      <label htmlFor="apply-name" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 cursor-pointer">
                         Full Name *
                       </label>
                       <input
+                        id="apply-name"
                         type="text"
                         required
                         value={formData.name}
                         onChange={handleFormChange('name')}
                         placeholder="Your full name"
-                        className="w-full px-4 py-3 rounded-xl border border-stone-200 text-sm text-slate-900 bg-white hover:border-slate-400 focus:outline-none focus:ring-4 focus:ring-orange-500/15 focus:border-[#E8683E] transition-all"
+                        className="w-full px-4 py-3 rounded-xl border border-stone-200 text-sm text-slate-900 bg-white hover:border-slate-400 focus:outline-none focus:ring-4 focus:ring-orange-500/15 focus:border-[#C74E23] transition-all"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                      <label htmlFor="apply-email" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 cursor-pointer">
                         Email Address *
                       </label>
                       <input
+                        id="apply-email"
                         type="email"
                         required
                         value={formData.email}
                         onChange={handleFormChange('email')}
                         placeholder="name@example.com"
-                        className="w-full px-4 py-3 rounded-xl border border-stone-200 text-sm text-slate-900 bg-white hover:border-slate-400 focus:outline-none focus:ring-4 focus:ring-orange-500/15 focus:border-[#E8683E] transition-all"
+                        className="w-full px-4 py-3 rounded-xl border border-stone-200 text-sm text-slate-900 bg-white hover:border-slate-400 focus:outline-none focus:ring-4 focus:ring-orange-500/15 focus:border-[#C74E23] transition-all"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                      <label htmlFor="apply-phone" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 cursor-pointer">
                         Phone Number *
                       </label>
                       <input
+                        id="apply-phone"
                         type="tel"
                         required
                         value={formData.phone}
                         onChange={handleFormChange('phone')}
                         placeholder="+91 98765 43210"
-                        className="w-full px-4 py-3 rounded-xl border border-stone-200 text-sm text-slate-900 bg-white hover:border-slate-400 focus:outline-none focus:ring-4 focus:ring-orange-500/15 focus:border-[#E8683E] transition-all"
+                        className="w-full px-4 py-3 rounded-xl border border-stone-200 text-sm text-slate-900 bg-white hover:border-slate-400 focus:outline-none focus:ring-4 focus:ring-orange-500/15 focus:border-[#C74E23] transition-all"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                      <label htmlFor="apply-location" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 cursor-pointer">
                         Current City / Location *
                       </label>
                       <input
+                        id="apply-location"
                         type="text"
                         required
                         value={formData.location}
                         onChange={handleFormChange('location')}
                         placeholder="e.g. Hyderabad, Warangal, etc."
-                        className="w-full px-4 py-3 rounded-xl border border-stone-200 text-sm text-slate-900 bg-white hover:border-slate-400 focus:outline-none focus:ring-4 focus:ring-orange-500/15 focus:border-[#E8683E] transition-all"
+                        className="w-full px-4 py-3 rounded-xl border border-stone-200 text-sm text-slate-900 bg-white hover:border-slate-400 focus:outline-none focus:ring-4 focus:ring-orange-500/15 focus:border-[#C74E23] transition-all"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                      <label htmlFor="apply-experience" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 cursor-pointer">
                         Relevant Experience *
                       </label>
                       <input
+                        id="apply-experience"
                         type="text"
                         required
                         value={formData.experience}
                         onChange={handleFormChange('experience')}
                         placeholder="e.g. 1 Year, 2 Years, or Fresher"
-                        className="w-full px-4 py-3 rounded-xl border border-stone-200 text-sm text-slate-900 bg-white hover:border-slate-400 focus:outline-none focus:ring-4 focus:ring-orange-500/15 focus:border-[#E8683E] transition-all"
+                        className="w-full px-4 py-3 rounded-xl border border-stone-200 text-sm text-slate-900 bg-white hover:border-slate-400 focus:outline-none focus:ring-4 focus:ring-orange-500/15 focus:border-[#C74E23] transition-all"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                        Resume / Portfolio Link *
-                      </label>
-                      <input
-                        type="url"
-                        required
-                        value={formData.resumeLink}
-                        onChange={handleFormChange('resumeLink')}
-                        placeholder="Google Drive, GitHub, or Portfolio URL"
-                        className="w-full px-4 py-3 rounded-xl border border-stone-200 text-sm text-slate-900 bg-white hover:border-slate-400 focus:outline-none focus:ring-4 focus:ring-orange-500/15 focus:border-[#E8683E] transition-all"
+                      <ResumeUploadField
+                        file={resumeFile}
+                        onFileSelect={(f) => {
+                          setResumeFile(f);
+                          if (f) setFileError('');
+                        }}
+                        error={fileError}
+                        setError={setFileError}
+                        id="job-apply-resume"
+                        label="Upload Resume (PDF, DOC, DOCX) *"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                      <label htmlFor="apply-cover-note" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 cursor-pointer">
                         Cover Note / Message
                       </label>
                       <textarea
+                        id="apply-cover-note"
                         rows={3}
                         value={formData.coverNote}
                         onChange={handleFormChange('coverNote')}
                         placeholder="Why are you excited about this role at Durgam Soft?"
-                        className="w-full px-4 py-3 rounded-xl border border-stone-200 text-sm text-slate-900 bg-white hover:border-slate-400 focus:outline-none focus:ring-4 focus:ring-orange-500/15 focus:border-[#E8683E] transition-all resize-none"
+                        className="w-full px-4 py-3 rounded-xl border border-stone-200 text-sm text-slate-900 bg-white hover:border-slate-400 focus:outline-none focus:ring-4 focus:ring-orange-500/15 focus:border-[#C74E23] transition-all resize-none"
                       />
                     </div>
 
@@ -526,14 +586,14 @@ export const JobDetailsPage = () => {
                         type="submit"
                         variant="primary"
                         size="lg"
-                        className="w-full gap-2 py-3.5 rounded-xl font-bold bg-[#E8683E] hover:bg-orange-600 text-white shadow-md hover:shadow-orange-500/25 cursor-pointer active:scale-98 transition-all"
+                        className="w-full gap-2 py-3.5 rounded-xl font-bold bg-[#C74E23] hover:bg-orange-600 text-white shadow-md hover:shadow-orange-500/25 cursor-pointer active:scale-98 transition-all"
                       >
                         <Send className="w-4 h-4" />
                         <span>Submit Application</span>
                       </Button>
 
                       <p className="text-[11px] text-slate-500 text-center flex items-center justify-center gap-1.5 pt-1">
-                        <Mail className="w-3.5 h-3.5 text-[#E8683E] shrink-0" />
+                        <Mail className="w-3.5 h-3.5 text-[#C74E23] shrink-0" />
                         <span>
                           Direct delivery to{' '}
                           <strong className="text-black font-semibold">careers@durgamsoft.com</strong>
@@ -558,16 +618,16 @@ export const JobDetailsPage = () => {
                     href={`mailto:careers@durgamsoft.com?subject=Inquiry:%20${encodeURIComponent(job.title)}`}
                     className="p-3.5 rounded-2xl bg-[#FAF7F2] hover:bg-orange-50 border border-stone-200 flex items-center gap-3 text-xs font-bold text-slate-800 transition-colors group block"
                   >
-                    <Mail className="w-4 h-4 text-[#E8683E]" />
-                    <span className="group-hover:text-[#E8683E] transition-colors">careers@durgamsoft.com</span>
+                    <Mail className="w-4 h-4 text-[#C74E23]" />
+                    <span className="group-hover:text-[#C74E23] transition-colors">careers@durgamsoft.com</span>
                   </a>
 
                   <a
                     href="tel:+918374588099"
                     className="p-3.5 rounded-2xl bg-[#FAF7F2] hover:bg-orange-50 border border-stone-200 flex items-center gap-3 text-xs font-bold text-slate-800 transition-colors group block"
                   >
-                    <Phone className="w-4 h-4 text-[#E8683E]" />
-                    <span className="group-hover:text-[#E8683E] transition-colors">+91 83745 88099</span>
+                    <Phone className="w-4 h-4 text-[#C74E23]" />
+                    <span className="group-hover:text-[#C74E23] transition-colors">+91 83745 88099</span>
                   </a>
 
                   <div className="p-3.5 rounded-2xl bg-[#FAF7F2] border border-stone-200 flex items-center gap-3 text-xs font-medium text-slate-700">

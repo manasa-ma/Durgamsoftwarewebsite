@@ -3,9 +3,9 @@ import { cn } from '../../utils/helpers';
 
 export const Badge = ({ children, variant = 'orange', className }) => {
   const variantStyles = {
-    orange: 'bg-brand-light-orange text-brand-orange border border-orange-200',
+    orange: 'bg-orange-50 text-[#B83E15] border border-orange-200',
     navy: 'bg-slate-100 text-brand-navy border border-slate-200',
-    gray: 'bg-brand-light-gray text-brand-secondary-text border border-brand-border',
+    gray: 'bg-slate-100 text-slate-700 border border-slate-200',
   };
 
   return (

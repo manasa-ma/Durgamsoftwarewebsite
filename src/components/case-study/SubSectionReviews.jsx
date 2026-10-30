@@ -28,7 +28,7 @@ export const SubSectionReviews = ({
           <h2 className="text-3xl sm:text-4xl font-black text-black tracking-tight leading-tight">
             {title}
           </h2>
-          <div className="w-16 h-1 bg-[#E8683E] rounded-full mx-auto mt-3 mb-4" />
+          <div className="w-16 h-1 bg-[#C74E23] rounded-full mx-auto mt-3 mb-4" />
           <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
             {subtitle}
           </p>
@@ -60,7 +60,7 @@ export const SubSectionReviews = ({
                 {/* Client Company & Optional Live Link */}
                 <div className="mb-3">
                   <div className="flex items-center gap-2">
-                    <h4 className="text-base font-black text-black tracking-tight group-hover:text-[#E8683E] transition-colors">
+                    <h4 className="text-base font-black text-black tracking-tight group-hover:text-[#C74E23] transition-colors">
                       {rev.client}
                     </h4>
                     {rev.isLiveLink && rev.url && (
@@ -68,7 +68,7 @@ export const SubSectionReviews = ({
                         href={rev.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-slate-400 hover:text-[#E8683E] transition-colors"
+                        className="text-slate-400 hover:text-[#C74E23] transition-colors"
                         title="Open live website"
                       >
                         <ExternalLink className="w-3.5 h-3.5" />
@@ -83,7 +83,7 @@ export const SubSectionReviews = ({
                       href={rev.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-[11px] font-bold text-[#E8683E] hover:underline mt-1 group-hover:translate-x-0.5 transition-transform"
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-[#C74E23] hover:underline mt-1 group-hover:translate-x-0.5 transition-transform"
                     >
                       <span>{rev.displayUrl || rev.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}</span>
                       <ExternalLink className="w-2.5 h-2.5" />
@@ -105,7 +105,7 @@ export const SubSectionReviews = ({
                   <div className="grid grid-cols-2 gap-2 p-3 rounded-2xl bg-[#FAF7F2] border border-stone-200/80 mb-5">
                     {rev.metrics.map((m, mIdx) => (
                       <div key={mIdx}>
-                        <span className="text-sm font-black text-[#E8683E] block">
+                        <span className="text-sm font-black text-[#C74E23] block">
                           {m.value}
                         </span>
                         <span className="text-[10px] text-slate-500 font-medium">

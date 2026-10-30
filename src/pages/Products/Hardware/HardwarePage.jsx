@@ -5,6 +5,7 @@ import { HardwareCard } from '../../../components/products/HardwareCard';
 import { Button } from '../../../components/buttons/Button';
 import { HARDWARE_PRODUCTS } from '../../../data/products';
 import { updatePageMeta } from '../../../utils/seo';
+import { FollowOnSocial } from '../../../components/common/FollowOnSocial';
 export const HardwarePage = () => {
   useEffect(() => {
     updatePageMeta({
@@ -63,6 +64,9 @@ export const HardwarePage = () => {
           </div>
         </div>
       </section>
+
+      {/* Follow on Social (Facebook & Instagram) */}
+      <FollowOnSocial />
     </div>
   );
 };

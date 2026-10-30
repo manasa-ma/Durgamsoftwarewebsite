@@ -114,9 +114,9 @@ export const TestimonialCarousel = ({
             {/* Headline & 2-3 Line Review */}
             <div className="my-2">
               {current.headline && (
-                <h4 className="text-base sm:text-lg font-black text-black mb-2 tracking-tight">
+                <h3 className="text-base sm:text-lg font-black text-black mb-2 tracking-tight">
                   &ldquo;{current.headline}&rdquo;
-                </h4>
+                </h3>
               )}
               <p className="text-sm sm:text-base text-slate-700 leading-relaxed font-normal line-clamp-4">
                 {current.review}
@@ -126,13 +126,13 @@ export const TestimonialCarousel = ({
             {/* Author, Company & External Link */}
             <div className="pt-5 mt-4 border-t border-stone-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#E8683E] text-white font-bold text-sm flex items-center justify-center shrink-0 shadow-2xs">
+                <div className="w-10 h-10 rounded-full bg-[#C74E23] text-white font-bold text-sm flex items-center justify-center shrink-0 shadow-2xs">
                   {current.avatarInitial || current.author?.charAt(0) || 'C'}
                 </div>
                 <div>
-                  <h5 className="font-bold text-sm text-black leading-tight">
+                  <h4 className="font-bold text-sm text-black leading-tight">
                     {current.author}
-                  </h5>
+                  </h4>
                   <p className="text-xs text-slate-500 mt-0.5 font-medium">
                     {current.role} • {current.company}
                   </p>
@@ -144,7 +144,7 @@ export const TestimonialCarousel = ({
                   href={current.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#E8683E] hover:underline self-start sm:self-center"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C74E23] hover:underline self-start sm:self-center"
                 >
                   <span>{current.displayUrl || current.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}</span>
                   <ExternalLink className="w-3 h-3" />
@@ -176,17 +176,21 @@ export const TestimonialCarousel = ({
               </div>
 
               {/* Dots Indicators */}
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1">
                 {reviews.map((_, idx) => (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => setCurrentIndex(idx)}
-                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                      idx === currentIndex ? 'w-6 bg-[#E8683E]' : 'w-2 bg-stone-300 hover:bg-stone-400'
-                    }`}
+                    className="p-2 cursor-pointer flex items-center justify-center min-w-[28px] min-h-[28px]"
                     aria-label={`Go to slide ${idx + 1}`}
-                  />
+                  >
+                    <span
+                      className={`h-2 rounded-full transition-all duration-300 block ${
+                        idx === currentIndex ? 'w-6 bg-[#C74E23]' : 'w-2 bg-stone-300 hover:bg-stone-400'
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
             </div>

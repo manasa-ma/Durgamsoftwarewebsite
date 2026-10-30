@@ -61,7 +61,7 @@ export const Slide5WebsiteVisual = () => {
           <div className="flex items-center justify-between pb-2 border-b border-slate-100">
             <div className="flex items-center gap-1.5">
               <img
-                src="/images/durgamsoft-logo.png"
+                src="/images/durgamsoft-logo.webp"
                 alt="DS"
                 className="w-4 h-4 object-contain"
               />

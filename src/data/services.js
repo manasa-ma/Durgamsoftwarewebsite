@@ -1,7 +1,7 @@
-import serviceWebImg from '../assets/images/services/service-web-development.jpg';
-import serviceDesktopImg from '../assets/images/services/service-desktop-development.jpg';
-import serviceMobileImg from '../assets/images/services/service-mobile-development.jpg';
-import serviceMarketingImg from '../assets/images/services/service-digital-marketing.jpg';
+import serviceWebHero from '../assets/images/services/service-web-hero.webp';
+import serviceDesktopHero from '../assets/images/services/service-desktop-hero.webp';
+import serviceMobileHero from '../assets/images/services/service-mobile-hero.webp';
+import serviceMarketingHero from '../assets/images/services/service-marketing-hero.webp';
 
 export const SERVICES_PAGE_DATA = {
   hero: {
@@ -53,7 +53,8 @@ export const SERVICES_DATA = [
     navPath: '/services/web-development',
     ctaLink: '/services/web-development',
     ctaText: 'Explore Web Development',
-    image: serviceWebImg,
+    image: serviceWebHero,
+    webpImage: serviceWebHero,
     shortDescription:
       'Custom cloud web applications, business dashboards, and enterprise portals built for blazing speed, high concurrency, and effortless responsive browsing.',
     description:
@@ -134,7 +135,8 @@ export const SERVICES_DATA = [
     navPath: '/services/mobile-development',
     ctaLink: '/services/mobile-development',
     ctaText: 'Explore Mobile Development',
-    image: serviceMobileImg,
+    image: serviceMobileHero,
+    webpImage: serviceMobileHero,
     shortDescription:
       'High-performance cross-platform iOS and Android apps engineered with Flutter, featuring offline SQLite caching, Bluetooth hardware support, and fluid touch navigation.',
     description:
@@ -214,7 +216,8 @@ export const SERVICES_DATA = [
     navPath: '/services/desktop-development',
     ctaLink: '/services/desktop-development',
     ctaText: 'Explore Desktop Development',
-    image: serviceDesktopImg,
+    image: serviceDesktopHero,
+    webpImage: serviceDesktopHero,
     shortDescription:
       'Ultra-fast native Windows desktop billing systems, thermal printer drivers, and electronic scale integrations built for zero-latency retail operations.',
     description:
@@ -286,6 +289,79 @@ export const SERVICES_DATA = [
     ],
   },
   {
+    id: 'billing-software',
+    group: 'Application Development',
+    title: 'Billmaster Billing Software',
+    badge: 'POS, Invoicing & Inventory',
+    navPath: '/products/billmaster',
+    ctaLink: '/products/billmaster',
+    ctaText: 'Explore Billmaster',
+    image: '/images/billmaster-smart-billing.webp',
+    webpImage: '/images/billmaster-smart-billing.webp',
+    shortDescription:
+      'Fast, reliable billing and POS software designed to simplify transactions, manage inventory, and generate GST-compliant invoices.',
+    description:
+      'Fast, reliable billing and POS software designed to simplify transactions, manage inventory, and generate GST-compliant invoices.',
+    subServices: [
+      'Rapid POS Billing & Instant Invoicing',
+      'Inventory, Stock & Ledger Tracking',
+      'GST & Tax Compliance Reports',
+      'Thermal Printer & Barcode Scanner Sync',
+    ],
+    fullOverview:
+      'Billmaster by Durgam Soft is an enterprise-grade billing and point-of-sale software engineered for retail shops, restaurants, supermarkets, and wholesale businesses. It delivers lightning-fast barcode scanning, instant thermal receipt printing, real-time inventory tracking, and full GST compliance.',
+    heroStats: [
+      { value: '10x', label: 'Faster Counter Checkout' },
+      { value: '100%', label: 'GST Compliant Invoicing' },
+      { value: 'Offline', label: 'First Reliability' },
+    ],
+    capabilities: [
+      {
+        title: 'Rapid POS Billing & Invoicing',
+        description:
+          'High-speed counter checkout with keyboard shortcuts, barcode scanner integration, and automatic discount calculation.',
+      },
+      {
+        title: 'Inventory & Stock Management',
+        description:
+          'Real-time stock deduction, low-stock alerts, multi-warehouse transfers, and batch/expiry tracking.',
+      },
+      {
+        title: 'GST & Tax Compliance',
+        description:
+          'Automated GSTR-1, GSTR-3B tax report generation, HSN/SAC code mapping, and multi-rate tax calculations.',
+      },
+      {
+        title: 'Hardware Peripherals Sync',
+        description:
+          'Seamless connectivity with USB/Bluetooth thermal receipt printers, barcode scanners, and weighing scales.',
+      },
+    ],
+    techStack: [
+      'Windows Desktop',
+      'Android Mobile',
+      'Cloud Sync',
+      'ESC/POS Thermal Printing',
+      'SQLite / Cloud DB',
+    ],
+    deliverables: [
+      'Full Software Installation & Licensing',
+      'Complete Database & Product Import',
+      'Cashier & Staff Training Session',
+      'Dedicated Customer Support & Updates',
+    ],
+    faqs: [
+      {
+        q: 'Does Billmaster work without internet?',
+        a: 'Yes, Billmaster is built offline-first. Billing never stops even if your internet connection goes down.',
+      },
+      {
+        q: 'Can Billmaster connect with barcode scanners and thermal printers?',
+        a: 'Yes, it works out-of-the-box with all standard 2-inch and 3-inch thermal printers and barcode scanners.',
+      },
+    ],
+  },
+  {
     id: 'digital-marketing',
     group: 'Digital Marketing',
     title: 'Digital Marketing & SEO',
@@ -293,7 +369,8 @@ export const SERVICES_DATA = [
     navPath: '/services/digital-marketing',
     ctaLink: '/services/digital-marketing',
     ctaText: 'Explore Digital Marketing',
-    image: serviceMarketingImg,
+    image: serviceMarketingHero,
+    webpImage: serviceMarketingHero,
     shortDescription:
       'Data-driven local and national SEO, targeted Google/Meta advertising campaigns, and conversion optimization to drive verified commercial inquiries.',
     description:

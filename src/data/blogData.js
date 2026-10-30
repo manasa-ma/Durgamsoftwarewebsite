@@ -1,8 +1,11 @@
-import blogPosCheckoutImg from '../assets/images/blog/blog-pos-checkout.jpg';
-import blogSmallBusinessGrowthImg from '../assets/images/blog/blog-small-business-growth.jpg';
-import blogModernTechImg from '../assets/images/blog/blog-modern-tech.jpg';
-import blogAutomationSoftwareImg from '../assets/images/blog/blog-automation-software.jpg';
-import capabilitiesTeamImg from '../assets/images/about/capabilities-team.jpg';
+import blog1BusinessGrowthImg from '../assets/images/blog/blog-business-growth.webp';
+import blog2PosCheckoutImg from '../assets/images/blog/blog-pos-checkout.webp';
+import blog3SoftwareAutomationImg from '../assets/images/blog/blog-software-automation.webp';
+import blog4ModernWebsiteImg from '../assets/images/blog/blog-modern-website.webp';
+import blog5CustomSoftwareImg from '../assets/images/blog/blog-custom-software.webp';
+import blog6MobileAppUxImg from '../assets/images/blog/blog-mobile-app-ux.webp';
+import blog7CustomerExperienceImg from '../assets/images/blog/blog-customer-experience.webp';
+import blog8RetailIntelligenceImg from '../assets/images/blog/blog-retail-intelligence.webp';
 
 export const BLOG_CATEGORIES = [
   'All',
@@ -25,11 +28,11 @@ export const BLOG_ARTICLES = [
     date: 'October 20, 2026',
     readTime: '5 min read',
     author: {
-      name: 'Venu Durgam',
+      name: 'Durgam Venu Gopal',
       role: 'Founder & CEO, Durgam Soft',
-      avatar: '/images/about/testi-1.png',
+      avatar: '/images/about/testimonial-avatar-1.webp',
     },
-    image: blogSmallBusinessGrowthImg,
+    image: blog1BusinessGrowthImg,
     tags: ['Business Growth', 'Retail Tech', 'Automation', 'Billmaster'],
     tableOfContents: [
       { id: 'the-growth-hurdle', title: '1. The Real Growth Hurdle for Small Businesses' },
@@ -101,11 +104,11 @@ export const BLOG_ARTICLES = [
     date: 'October 18, 2026',
     readTime: '6 min read',
     author: {
-      name: 'Venu Durgam',
+      name: 'Durgam Venu Gopal',
       role: 'Founder & CEO, Durgam Soft',
-      avatar: '/images/about/testi-1.png',
+      avatar: '/images/about/testimonial-avatar-1.webp',
     },
-    image: blogPosCheckoutImg,
+    image: blog2PosCheckoutImg,
     tags: ['POS Systems', 'Billmaster', 'Retail Speed', 'Thermal Printing'],
     tableOfContents: [
       { id: 'checkout-bottleneck', title: '1. The Supermarket Rush Hour Problem' },
@@ -164,9 +167,9 @@ export const BLOG_ARTICLES = [
     author: {
       name: 'Durgam Soft Engineering Team',
       role: 'Enterprise Systems Architecture',
-      avatar: '/images/about/testi-3.png',
+      avatar: '/images/about/testimonial-avatar-3.webp',
     },
-    image: blogAutomationSoftwareImg,
+    image: blog3SoftwareAutomationImg,
     tags: ['Automation', 'Custom Software', 'Productivity', 'Operations'],
     tableOfContents: [
       { id: 'the-hidden-drain', title: '1. The Hidden Drain of Manual Tasks' },
@@ -221,9 +224,9 @@ export const BLOG_ARTICLES = [
     author: {
       name: 'Durgam Soft Web Studio',
       role: 'Full-Stack Engineering & Design',
-      avatar: '/images/about/testi-2.png',
+      avatar: '/images/about/testimonial-avatar-2.webp',
     },
-    image: blogModernTechImg,
+    image: blog4ModernWebsiteImg,
     tags: ['Web Design', 'Digital Presence', 'SEO', 'Mobile Friendly'],
     tableOfContents: [
       { id: 'first-impressions', title: '1. The 3-Second First Impression' },
@@ -279,9 +282,9 @@ export const BLOG_ARTICLES = [
     author: {
       name: 'Durgam Soft Engineering Team',
       role: 'Enterprise Systems Architecture',
-      avatar: '/images/about/testi-3.png',
+      avatar: '/images/about/testimonial-avatar-3.webp',
     },
-    image: blogAutomationSoftwareImg,
+    image: blog5CustomSoftwareImg,
     tags: ['Custom Software', 'SaaS', 'Efficiency', 'Enterprise Tech'],
     tableOfContents: [
       { id: 'the-generic-trap', title: '1. The Generic SaaS Subscription Trap' },
@@ -336,9 +339,9 @@ export const BLOG_ARTICLES = [
     author: {
       name: 'Durgam Soft Mobile Team',
       role: 'Cross-Platform Engineering',
-      avatar: '/images/about/testi-5.png',
+      avatar: '/images/about/testimonial-avatar-5.webp',
     },
-    image: blogModernTechImg,
+    image: blog6MobileAppUxImg,
     tags: ['Mobile UX', 'Flutter', 'Responsive Web', 'Speed'],
     tableOfContents: [
       { id: 'mobile-reality', title: '1. The Smartphone Reality in 2026' },
@@ -393,9 +396,9 @@ export const BLOG_ARTICLES = [
     author: {
       name: 'Durgam Soft Team',
       role: 'Product Strategy & Customer Success',
-      avatar: '/images/about/testi-6.png',
+      avatar: '/images/about/testimonial-avatar-6.webp',
     },
-    image: blogPosCheckoutImg,
+    image: blog7CustomerExperienceImg,
     tags: ['Customer Experience', 'Retail POS', 'Loyalty', 'Trust'],
     tableOfContents: [
       { id: 'experience-advantage', title: '1. Customer Experience Is the New Competitive Edge' },
@@ -447,11 +450,11 @@ export const BLOG_ARTICLES = [
     date: 'September 12, 2026',
     readTime: '6 min read',
     author: {
-      name: 'Venu Durgam',
+      name: 'Durgam Venu Gopal',
       role: 'Founder & CEO, Durgam Soft',
-      avatar: '/images/about/testi-1.png',
+      avatar: '/images/about/testimonial-avatar-1.webp',
     },
-    image: capabilitiesTeamImg,
+    image: blog8RetailIntelligenceImg,
     tags: ['Multi-Store', 'Cloud POS', 'Retail Intelligence', 'Analytics'],
     tableOfContents: [
       { id: 'the-multi-branch-puzzle', title: '1. The Multi-Branch Management Puzzle' },

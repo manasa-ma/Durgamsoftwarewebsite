@@ -11,11 +11,11 @@ export const HERO_SLIDES = [
       'From custom software and mobile apps to websites, digital marketing, and billing solutions, Durgam Soft helps businesses work smarter, grow faster, and succeed digitally.',
     primaryCta: {
       label: "Let's Discuss Your Project",
-      to: '/book-demo',
+      to: '/contact',
     },
     secondaryCta: {
-      label: 'Explore Our Products',
-      to: '/products',
+      label: 'Explore Our Solutions',
+      to: '/services',
     },
     supportingLabels: [
       'Custom Software Development',
@@ -38,11 +38,11 @@ export const HERO_SLIDES = [
       'We design and develop custom web applications, mobile apps, desktop software, and business websites tailored to your goals, workflows, and customers.',
     primaryCta: {
       label: 'Start Your Project',
-      to: '/book-demo',
+      to: '/contact',
     },
     secondaryCta: {
-      label: 'Explore Our Products',
-      to: '/products',
+      label: 'Explore Development Services',
+      to: '/services',
     },
     supportingLabels: [
       'Custom Software',
@@ -65,11 +65,11 @@ export const HERO_SLIDES = [
       'Build a stronger online presence with strategic digital marketing, search engine optimization, social media campaigns, and performance-focused advertising.',
     primaryCta: {
       label: 'Grow My Business',
-      to: '/book-demo',
+      to: '/contact',
     },
     secondaryCta: {
-      label: 'Explore Our Products',
-      to: '/products',
+      label: 'Explore Marketing Services',
+      to: '/services/digital-marketing',
     },
     supportingLabels: [
       'Search Engine Optimization',
@@ -92,7 +92,7 @@ export const HERO_SLIDES = [
       'Meet Billmaster, our billing software solution designed to help businesses simplify billing workflows, manage transactions, and operate more efficiently.',
     primaryCta: {
       label: 'Explore Billmaster',
-      to: '/products#billmaster',
+      to: '/products/billmaster',
     },
     secondaryCta: {
       label: 'Book a Billmaster Demo',
@@ -119,11 +119,11 @@ export const HERO_SLIDES = [
       'We create modern, responsive, user-friendly websites that showcase your brand, build trust, and help convert visitors into customers.',
     primaryCta: {
       label: 'Build My Website',
-      to: '/book-demo',
+      to: '/contact',
     },
     secondaryCta: {
-      label: 'Explore Our Products',
-      to: '/products',
+      label: 'View Our Web Services',
+      to: '/services/web-development',
     },
     supportingLabels: [
       'Business Websites',

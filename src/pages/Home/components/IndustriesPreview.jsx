@@ -4,11 +4,9 @@ import { SectionHeader } from '../../../components/common/SectionHeader';
 import { IndustryCard } from '../../../components/industries/IndustryCard';
 import { Button } from '../../../components/buttons/Button';
 import { INDUSTRIES_DATA } from '../../../data/industries';
-
 export const IndustriesPreview = () => {
   // Show concise preview of 3 major industries on homepage
   const previewIndustries = INDUSTRIES_DATA.slice(0, 3);
-
   return (
     <section className="bg-white py-16 md:py-24 border-b border-brand-border">
       <div className="container-custom">

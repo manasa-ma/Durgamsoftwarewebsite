@@ -5,9 +5,9 @@ import {
   Smartphone,
   Monitor,
   TrendingUp,
+  Receipt,
   ArrowRight,
   ChevronDown,
-  Sparkles,
   Layers,
   ShieldCheck,
   Zap,
@@ -23,6 +23,7 @@ export const ServicesPage = () => {
     'mobile-development': 0,
     'desktop-development': 0,
     'digital-marketing': 0,
+    'billing-software': 0,
   });
 
   useEffect(() => {
@@ -43,19 +44,21 @@ export const ServicesPage = () => {
   const getServiceIcon = (id) => {
     switch (id) {
       case 'web-development':
-        return <Globe className="w-5 h-5 text-[#E8683E]" />;
+        return <Globe className="w-5 h-5 text-[#C74E23]" />;
       case 'mobile-development':
-        return <Smartphone className="w-5 h-5 text-[#E8683E]" />;
+        return <Smartphone className="w-5 h-5 text-[#C74E23]" />;
       case 'desktop-development':
-        return <Monitor className="w-5 h-5 text-[#E8683E]" />;
+        return <Monitor className="w-5 h-5 text-[#C74E23]" />;
+      case 'billing-software':
+        return <Receipt className="w-5 h-5 text-[#C74E23]" />;
       case 'digital-marketing':
       default:
-        return <TrendingUp className="w-5 h-5 text-[#E8683E]" />;
+        return <TrendingUp className="w-5 h-5 text-[#C74E23]" />;
     }
   };
 
   return (
-    <div className="bg-white min-h-screen font-sans text-slate-900 antialiased selection:bg-[#E8683E]/20 selection:text-[#E8683E]">
+    <div className="bg-white min-h-screen font-sans text-slate-900 antialiased selection:bg-[#C74E23]/20 selection:text-[#C74E23]">
       {/* Breadcrumb Navigation */}
       <Breadcrumb items={[{ label: 'Services' }]} />
 
@@ -83,16 +86,11 @@ export const ServicesPage = () => {
         />
 
         <div className="container-custom relative z-10 max-w-6xl text-center">
-          {/* Top Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50 border border-rose-200 text-[#E8683E] text-xs font-bold uppercase tracking-widest shadow-2xs mb-5">
-            <Sparkles className="w-3.5 h-3.5 text-[#E8683E] animate-pulse" />
-            <span>{SERVICES_PAGE_DATA.hero.badge}</span>
-          </div>
 
           {/* Headline */}
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-black tracking-tight leading-[1.1] uppercase mb-5">
             End-to-End Software{' '}
-            <span className="text-[#E8683E]">Development &amp; Growth</span>
+            <span className="text-[#B83E15]">Development &amp; Growth</span>
           </h1>
 
           {/* Subtitle */}
@@ -111,10 +109,10 @@ export const ServicesPage = () => {
                 <div className="w-9 h-9 rounded-xl bg-orange-50/80 border border-orange-100/80 flex items-center justify-center mb-2.5 group-hover:scale-105 transition-transform shadow-2xs">
                   {getServiceIcon(service.id)}
                 </div>
-                <h4 className="text-xs sm:text-sm font-black text-black group-hover:text-[#E8683E] transition-colors line-clamp-1">
+                <span className="text-xs sm:text-sm font-black text-black group-hover:text-[#C74E23] transition-colors line-clamp-1 block">
                   {service.title.replace(' Application', '').replace(' App', '')}
-                </h4>
-                <span className="text-[10px] text-slate-400 font-medium block truncate mt-0.5">
+                </span>
+                <span className="text-[10px] text-slate-600 font-medium block truncate mt-0.5">
                   {service.badge}
                 </span>
               </a>
@@ -162,12 +160,6 @@ export const ServicesPage = () => {
                       isReversed ? 'lg:order-2' : 'lg:order-1'
                     }`}
                   >
-                    {/* Badge */}
-                    <div className="flex items-center gap-2">
-                      <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-orange-50 text-[#E8683E] border border-orange-200/80">
-                        {service.badge}
-                      </span>
-                    </div>
 
                     {/* Title */}
                     <h2 className="text-3xl sm:text-4xl font-black text-black tracking-tight leading-tight">
@@ -200,12 +192,12 @@ export const ServicesPage = () => {
                               className="w-full p-4 text-left flex items-center justify-between gap-3 cursor-pointer"
                             >
                               <span className="font-bold text-sm sm:text-base text-black flex items-center gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#E8683E]" />
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#C74E23]" />
                                 {cap.title}
                               </span>
                               <ChevronDown
                                 className={`w-4 h-4 text-slate-400 transition-transform duration-200 shrink-0 ${
-                                  isExpanded ? 'rotate-180 text-[#E8683E]' : ''
+                                  isExpanded ? 'rotate-180 text-[#C74E23]' : ''
                                 }`}
                               />
                             </button>
@@ -222,7 +214,7 @@ export const ServicesPage = () => {
 
                     {/* Tech Stack Pills */}
                     <div className="pt-2">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-2">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600 block mb-2">
                         TECHNOLOGIES &amp; TOOLING
                       </span>
                       <div className="flex flex-wrap gap-1.5">
@@ -241,7 +233,7 @@ export const ServicesPage = () => {
                     <div className="pt-3">
                       <Link
                         to={service.navPath}
-                        className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-black hover:bg-[#E8683E] text-white font-bold text-sm shadow-md hover:shadow-orange-500/25 active:scale-95 transition-all duration-300 group/btn"
+                        className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-black hover:bg-[#C74E23] text-white font-bold text-sm shadow-md hover:shadow-orange-500/25 active:scale-95 transition-all duration-300 group/btn"
                       >
                         <span>Explore {service.title}</span>
                         <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
@@ -258,29 +250,26 @@ export const ServicesPage = () => {
                     <div className="relative group">
                       {/* Main Large Image Container with Hover Scale Animation */}
                       <div className="rounded-3xl overflow-hidden border border-stone-200/90 shadow-md group-hover:shadow-2xl transition-all duration-500 aspect-[4/3] bg-stone-100">
-                        <img
-                          src={service.image}
-                          alt={service.title}
-                          className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-700 ease-out"
-                        />
+                        <picture>
+                          {service.webpImage && (
+                            <source srcSet={service.webpImage} type="image/webp" />
+                          )}
+                          <img
+                            src={service.image}
+                            alt={
+                              service.id === 'billing-software'
+                                ? 'Billmaster Smart Billing — Mobile App, 2 Inch Printer, Barcode Scanner, and Cloud Dashboard'
+                                : service.title
+                            }
+                            loading="lazy"
+                            decoding="async"
+                            width={600}
+                            height={450}
+                            className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-700 ease-out"
+                          />
+                        </picture>
                       </div>
 
-                      {/* Floating Inset Stat Pill (Inspired by Dribbble Reference) */}
-                      <div className="absolute -bottom-5 right-5 sm:right-8 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-stone-200/90 shadow-xl max-w-xs group-hover:-translate-y-1 transition-transform duration-300">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-xl bg-orange-100 text-[#E8683E] flex items-center justify-center font-bold text-sm shrink-0">
-                            <Zap className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <span className="text-xs font-bold text-black block">
-                              {service.heroStats[0].value} {service.heroStats[0].label}
-                            </span>
-                            <span className="text-[10px] text-slate-500 block">
-                              Production Tested &amp; Guaranteed
-                            </span>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -297,7 +286,7 @@ export const ServicesPage = () => {
         <div className="container-custom max-w-6xl">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="p-8 rounded-3xl bg-[#FAF7F2] border border-stone-200/90 shadow-2xs hover:shadow-lg transition-shadow">
-              <div className="w-12 h-12 rounded-2xl bg-white border border-stone-200 flex items-center justify-center mb-5 text-[#E8683E] shadow-2xs">
+              <div className="w-12 h-12 rounded-2xl bg-white border border-stone-200 flex items-center justify-center mb-5 text-[#C74E23] shadow-2xs">
                 <ShieldCheck className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-black text-black tracking-tight mb-2">
@@ -309,7 +298,7 @@ export const ServicesPage = () => {
             </div>
 
             <div className="p-8 rounded-3xl bg-[#FAF7F2] border border-stone-200/90 shadow-2xs hover:shadow-lg transition-shadow">
-              <div className="w-12 h-12 rounded-2xl bg-white border border-stone-200 flex items-center justify-center mb-5 text-[#E8683E] shadow-2xs">
+              <div className="w-12 h-12 rounded-2xl bg-white border border-stone-200 flex items-center justify-center mb-5 text-[#C74E23] shadow-2xs">
                 <Zap className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-black text-black tracking-tight mb-2">
@@ -321,7 +310,7 @@ export const ServicesPage = () => {
             </div>
 
             <div className="p-8 rounded-3xl bg-[#FAF7F2] border border-stone-200/90 shadow-2xs hover:shadow-lg transition-shadow">
-              <div className="w-12 h-12 rounded-2xl bg-white border border-stone-200 flex items-center justify-center mb-5 text-[#E8683E] shadow-2xs">
+              <div className="w-12 h-12 rounded-2xl bg-white border border-stone-200 flex items-center justify-center mb-5 text-[#C74E23] shadow-2xs">
                 <Layers className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-black text-black tracking-tight mb-2">
@@ -342,7 +331,7 @@ export const ServicesPage = () => {
         <div className="container-custom max-w-5xl">
           <div className="rounded-3xl bg-[#1A1A1A] text-white p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl">
             <div className="space-y-2 text-center md:text-left">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#E8683E] block">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#FB923C] block">
                 LET&rsquo;S COLLABORATE
               </span>
               <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
@@ -356,7 +345,7 @@ export const ServicesPage = () => {
             <div className="flex flex-wrap items-center justify-center gap-4 shrink-0">
               <Link
                 to="/contact"
-                className="px-7 py-3.5 rounded-full bg-[#E8683E] hover:bg-orange-600 text-white font-bold text-sm shadow-md hover:shadow-orange-500/25 active:scale-95 transition-all duration-200"
+                className="px-7 py-3.5 rounded-full bg-[#C74E23] hover:bg-orange-600 text-white font-bold text-sm shadow-md hover:shadow-orange-500/25 active:scale-95 transition-all duration-200"
               >
                 Schedule Scoping Call
               </Link>

@@ -60,6 +60,12 @@ export const Hero = () => {
     nextSlide();
   };
 
+  const handleDotClick = (index) => {
+    setIsPaused(true);
+    setCurrentSlide(index);
+    setTimerKey((prev) => prev + 1);
+  };
+
   // Keyboard navigation
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowLeft') {
@@ -128,7 +134,7 @@ export const Hero = () => {
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      className="relative w-full overflow-hidden bg-slate-50/70 -mt-[10px] pt-3 pb-8 sm:pt-6 sm:pb-12 lg:pt-8 lg:pb-14 border-b border-brand-border focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange"
+      className="relative w-full overflow-hidden bg-slate-50/70 mt-0 pt-3 pb-8 sm:pt-6 sm:pb-12 lg:pt-8 lg:pb-14 border-b border-brand-border focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange"
     >
       {/* Subtle modern background textures */}
       <div className="absolute inset-0 pointer-events-none opacity-50">
@@ -264,6 +270,42 @@ export const Hero = () => {
           >
             <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover:translate-x-0.5" />
           </button>
+        </div>
+      </div>
+
+      {/* Carousel Pagination Dots (Small, Round Buttons Indicating Active Slide) */}
+      <div
+        className="relative z-30 flex items-center justify-center pt-2 sm:pt-3"
+        role="tablist"
+        aria-label="Carousel slide navigation"
+      >
+        <div className="inline-flex items-center gap-1 sm:gap-1.5 px-3 py-1.5 rounded-full bg-white/80 backdrop-blur-xs border border-slate-200/80 shadow-xs">
+          {HERO_SLIDES.map((slide, idx) => {
+            const isActive = idx === currentSlide;
+            return (
+              <button
+                key={slide.id || idx}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                aria-label={`Go to slide ${idx + 1}`}
+                title={`Slide ${idx + 1}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDotClick(idx);
+                }}
+                className="p-1 sm:p-1.5 flex items-center justify-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange transition-transform cursor-pointer"
+              >
+                <span
+                  className={`block rounded-full transition-all duration-300 ${
+                    isActive
+                      ? 'w-3 h-3 sm:w-3.5 sm:h-3.5 bg-brand-orange ring-2 ring-orange-500/30 shadow-xs scale-105'
+                      : 'w-2 h-2 sm:w-2.5 sm:h-2.5 bg-slate-300 hover:bg-slate-400'
+                  }`}
+                />
+              </button>
+            );
+          })}
         </div>
       </div>
     </section>

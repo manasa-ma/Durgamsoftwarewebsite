@@ -5,19 +5,17 @@ import { BillmasterCard } from '../../../components/products/BillmasterCard';
 import { HardwareCard } from '../../../components/products/HardwareCard';
 import { Button } from '../../../components/buttons/Button';
 import { BILLMASTER_PRODUCTS, HARDWARE_PRODUCTS } from '../../../data/products';
-
 export const ProductsPreview = () => {
   // Show concise previews on homepage: 1 billmaster + 2 hardware peripherals
   const featuredBillmaster = BILLMASTER_PRODUCTS[0];
   const featuredHardware = HARDWARE_PRODUCTS.slice(0, 2);
-
   return (
     <section className="bg-white py-16 md:py-24 border-b border-brand-border">
       <div className="container-custom">
         <SectionHeader
           badge="Product Portfolio"
-          title="Products — billmaster + Hardware"
-          subtitle="Explore the billmaster software suite and certified point-of-sale hardware peripherals built for high performance."
+          title="Products — Billmaster + Hardware"
+          subtitle="Explore the Billmaster software suite and certified point-of-sale hardware peripherals built for high performance."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">

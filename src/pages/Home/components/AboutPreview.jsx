@@ -3,7 +3,6 @@ import { ArrowRight } from 'lucide-react';
 import { SectionHeader } from '../../../components/common/SectionHeader';
 import { CompanyIntro } from '../../../components/about/CompanyIntro';
 import { Button } from '../../../components/buttons/Button';
-
 export const AboutPreview = () => {
   return (
     <section className="bg-brand-light-gray py-16 md:py-24 border-b border-brand-border">
@@ -11,7 +10,7 @@ export const AboutPreview = () => {
         <SectionHeader
           badge="About Durgam Soft"
           title="About Us — Company Overview"
-          subtitle="Learn more about our product foundation, engineering values, and executive leadership."
+          subtitle="Learn more about our organizational foundation, engineering values, and executive leadership."
         />
 
         {/* Company Overview Intro */}

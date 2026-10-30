@@ -7,8 +7,8 @@ export default {
         brand: {
           navy: '#0B1F3A',
           'dark-navy': '#071525',
-          orange: '#F97316',
-          'orange-hover': '#EA580C',
+          orange: '#C74E23',
+          'orange-hover': '#B83E15',
           'light-orange': '#FFF7ED',
           white: '#FFFFFF',
           'light-gray': '#F8FAFC',

@@ -1,6 +1,5 @@
 import React from 'react';
 import { ProductCard } from './ProductCard';
-
 export const ProductCategoryCard = ({ category }) => {
   return (
     <ProductCard className="border-l-4 border-l-brand-orange bg-gradient-to-r from-brand-light-gray to-white">

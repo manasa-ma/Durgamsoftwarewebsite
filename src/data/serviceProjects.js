@@ -1,15 +1,15 @@
 // Visual Project Showcase Data for Durgam Soft Service Pages
-import modrunEcoImg from '../assets/images/clients/modrun-ecommerce-showcase.jpg';
-import modrunMobImg from '../assets/images/clients/modrun-mobile-app-showcase.jpg';
-import modrunPosImg from '../assets/images/clients/modrun-warehouse-pos.jpg';
-import modrunMktImg from '../assets/images/clients/modrun-growth-analytics.jpg';
-import billmasterShowcaseImg from '../assets/images/about/billmaster-showcase.jpg';
-import serviceWebImg from '../assets/images/services/service-web-development.jpg';
-import serviceMobileImg from '../assets/images/services/service-mobile-development.jpg';
-import blogPosCheckoutImg from '../assets/images/blog/blog-pos-checkout.jpg';
-import blogModernTechImg from '../assets/images/blog/blog-modern-tech.jpg';
-import blogAutomationImg from '../assets/images/blog/blog-automation-software.jpg';
-import blogSmallBusinessImg from '../assets/images/blog/blog-small-business-growth.jpg';
+import modrunEcoImg from '../assets/images/clients/case-study-modrun-ecommerce.webp';
+import modrunMobImg from '../assets/images/clients/case-study-modrun-mobile-app.webp';
+import modrunPosImg from '../assets/images/clients/case-study-modrun-warehouse-pos.webp';
+import modrunMktImg from '../assets/images/clients/case-study-modrun-growth-analytics.webp';
+import billmasterShowcaseImg from '../assets/images/about/about-billmaster-showcase.webp';
+import serviceWebImg from '../assets/images/services/service-web-hero.webp';
+import serviceMobileImg from '../assets/images/services/service-mobile-hero.webp';
+import blogPosCheckoutImg from '../assets/images/blog/blog-pos-checkout.webp';
+import blogModernTechImg from '../assets/images/blog/blog-modern-tech.webp';
+import blogAutomationImg from '../assets/images/blog/blog-automation-software.webp';
+import blogSmallBusinessImg from '../assets/images/blog/blog-small-business-growth.webp';
 
 export const WEB_PROJECTS = [
   {

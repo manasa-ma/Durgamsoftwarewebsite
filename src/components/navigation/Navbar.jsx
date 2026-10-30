@@ -6,6 +6,8 @@ import { NavDropdown } from './NavDropdown';
 import { MobileMenu } from './MobileMenu';
 import { Button } from '../buttons/Button';
 import { cn } from '../../utils/helpers';
+import durgamSoftLogo from '../../assets/logos/durgamsoft-logo.webp';
+import durgamSoftTextLogo from '../../assets/logos/durgamsoft-text-logo.webp';
 
 export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -14,23 +16,26 @@ export const Navbar = () => {
   const actionButtons = NAVIGATION_ITEMS.filter((item) => item.isButton);
 
   return (
-    <nav className="w-full bg-white border-b border-brand-border sticky top-0 z-40 shadow-xs transition-shadow duration-200">
+    <nav className="w-full bg-white">
       <div className="container-custom">
         <div className="flex h-20 items-center justify-between">
           {/* Durgam Soft Logo */}
           <div className="flex items-center shrink-0">
-            <Link to="/" className="flex items-center gap-2 group">
-              <div className="w-10 h-10 rounded-lg bg-brand-navy flex items-center justify-center text-white font-bold text-xl tracking-wider group-hover:bg-brand-orange transition-colors">
-                DS
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xl font-bold tracking-tight text-brand-navy">
-                  Durgam Soft
-                </span>
-                <span className="text-[10px] tracking-widest uppercase text-brand-orange font-semibold">
-                  Pvt. Ltd.
-                </span>
-              </div>
+            <Link to="/" className="flex items-center gap-3 group">
+              <img
+                src={durgamSoftLogo}
+                alt="Durgam Soft Logo"
+                width={40}
+                height={40}
+                className="w-10 h-10 object-contain transition-transform duration-200 group-hover:scale-105"
+              />
+              <img
+                src={durgamSoftTextLogo}
+                alt="Durgam Soft Private Limited - Innovate | Develop | Deliver"
+                width={154}
+                height={38}
+                className="h-9 sm:h-10 w-auto object-contain transition-transform duration-200 group-hover:opacity-95"
+              />
             </Link>
           </div>
 

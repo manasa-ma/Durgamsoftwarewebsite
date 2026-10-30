@@ -1,17 +1,17 @@
 export const BILLMASTER_PRODUCTS = [
   {
     id: 'billmaster-software',
-    name: 'billmaster Billing Software',
+    name: 'Billmaster Billing Software',
     category: 'Billing Software',
     tagline: '[BILLMASTER_TAGLINE]',
     description: '[PRODUCT_DESCRIPTION]',
     features: ['[FEATURE_PLACEHOLDER_1]', '[FEATURE_PLACEHOLDER_2]', '[FEATURE_PLACEHOLDER_3]'],
-    ctaText: 'Explore billmaster',
-    ctaLink: '/products/billmaster',
+    ctaText: 'Explore Billmaster App',
+    ctaLink: 'https://billmasterapp.com/',
   },
   {
     id: 'billmaster-app',
-    name: 'billmaster Mobile App',
+    name: 'Billmaster Mobile App',
     category: 'Mobile App',
     tagline: '[BILLMASTER_APP_TAGLINE]',
     description: '[PRODUCT_DESCRIPTION]',
@@ -20,7 +20,6 @@ export const BILLMASTER_PRODUCTS = [
     ctaLink: '/products/billmaster',
   },
 ];
-
 export const HARDWARE_PRODUCTS = [
   {
     id: 'hw-thermal-printers',
@@ -68,7 +67,6 @@ export const HARDWARE_PRODUCTS = [
     ctaLink: '/products/hardware',
   },
 ];
-
 export const PRODUCT_CATEGORIES = [
   {
     id: 'cat-billmaster',

@@ -1,11 +1,33 @@
-import React, { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import { ChevronDown, X, ArrowRight } from 'lucide-react';
 import { Button } from '../buttons/Button';
 import { cn } from '../../utils/helpers';
+import durgamSoftLogo from '../../assets/logos/durgamsoft-logo.webp';
+import durgamSoftTextLogo from '../../assets/logos/durgamsoft-text-logo.webp';
 
 export const MobileMenu = ({ isOpen, onClose, items }) => {
   const [openSubmenus, setOpenSubmenus] = useState({});
+  const location = useLocation();
+
+  // Automatically close mobile menu when navigating to another route or section
+  useEffect(() => {
+    if (isOpen) {
+      onClose();
+    }
+  }, [location.pathname, location.search, location.hash]);
+
+  // Lock background body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   const toggleSubmenu = (label) => {
     setOpenSubmenus((prev) => ({
@@ -29,18 +51,19 @@ export const MobileMenu = ({ isOpen, onClose, items }) => {
       <div className="fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-white p-6 shadow-2xl flex flex-col justify-between overflow-y-auto">
         <div>
           <div className="flex items-center justify-between pb-6 border-b border-brand-border">
-            <Link to="/" onClick={onClose} className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-lg bg-brand-navy flex items-center justify-center text-white font-bold text-lg">
-                DS
-              </div>
-              <div className="flex flex-col">
-                <span className="text-base font-bold tracking-tight text-brand-navy">
-                  Durgam Soft
-                </span>
-                <span className="text-[9px] tracking-widest uppercase text-brand-orange font-semibold">
-                  Pvt. Ltd.
-                </span>
-              </div>
+            <Link to="/" onClick={onClose} className="flex items-center gap-2.5">
+              <img
+                src={durgamSoftLogo}
+                alt="Durgam Soft"
+                className="w-9 h-9 object-contain"
+              />
+              <img
+                src={durgamSoftTextLogo}
+                alt="Durgam Soft Private Limited - Innovate | Develop | Deliver"
+                width={130}
+                height={32}
+                className="h-8 w-auto object-contain"
+              />
             </Link>
             <button
               onClick={onClose}

@@ -7,9 +7,11 @@ import { updatePageMeta } from '../../utils/seo';
 export const HomePage = () => {
   useEffect(() => {
     updatePageMeta({
-      title: 'Durgam Soft Pvt. Ltd. — Enterprise Billing Software & Custom Engineering',
+      title: 'Durgam Soft Pvt. Ltd. | Software Products & Technology Solutions',
       description:
-        'Durgam Soft Pvt. Ltd. provides billmaster billing software, POS hardware peripherals, and custom enterprise software development.',
+        'Durgam Soft Pvt. Ltd. is a software product and technology company offering billmaster billing software, business applications, billing hardware, web and mobile app development, desktop applications, and digital solutions for businesses.',
+      canonical: 'https://www.durgamsoft.com/',
+      image: 'https://www.durgamsoft.com/logos/durgamsoft-logo.webp',
     });
   }, []);
 

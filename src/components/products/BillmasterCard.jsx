@@ -3,8 +3,6 @@ import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { ProductCard } from './ProductCard';
 import { Badge } from '../common/Badge';
 import { Button } from '../buttons/Button';
-import { PlaceholderBox } from '../common/PlaceholderBox';
-
 export const BillmasterCard = ({ product }) => {
   return (
     <ProductCard featured className="relative overflow-hidden">
@@ -22,12 +20,14 @@ export const BillmasterCard = ({ product }) => {
           {product.description}
         </p>
 
-        {/* Product Visual Mockup Placeholder */}
-        <PlaceholderBox
-          label={`[${product.name.toUpperCase()}_INTERFACE_PREVIEW]`}
-          heightClass="h-44"
-          className="mb-6 bg-slate-50"
-        />
+        {/* Product Visual Mockup */}
+        <div className="h-48 mb-6 overflow-hidden rounded-lg border border-slate-200/80 bg-white group">
+          <img
+            src="/images/billmaster-product-card.webp"
+            alt={product.name}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
 
         {/* Feature List */}
         <div className="space-y-2.5 mb-8">
@@ -41,10 +41,22 @@ export const BillmasterCard = ({ product }) => {
       </div>
 
       <div className="pt-4 border-t border-brand-border">
-        <Button variant="primary" to={product.ctaLink} className="w-full gap-2">
-          <span>{product.ctaText}</span>
-          <ArrowRight className="w-4 h-4" />
-        </Button>
+        {product.ctaLink?.startsWith('http') ? (
+          <a
+            href={product.ctaLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full inline-flex items-center justify-center font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-md text-sm px-5 py-2.5 bg-brand-orange text-white hover:bg-brand-orange-hover focus:ring-brand-orange shadow-xs font-semibold gap-2"
+          >
+            <span>{product.ctaText}</span>
+            <ArrowRight className="w-4 h-4" />
+          </a>
+        ) : (
+          <Button variant="primary" to={product.ctaLink} className="w-full gap-2">
+            <span>{product.ctaText}</span>
+            <ArrowRight className="w-4 h-4" />
+          </Button>
+        )}
       </div>
     </ProductCard>
   );

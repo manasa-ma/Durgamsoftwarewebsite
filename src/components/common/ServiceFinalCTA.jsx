@@ -14,7 +14,7 @@ export const ServiceFinalCTA = ({
     <section className="py-14 md:py-20 bg-white border-t border-stone-200/70 font-sans">
       <div className="container-custom max-w-4xl text-center">
         <div className="p-8 sm:p-14 rounded-3xl bg-[#1A1A1A] text-white shadow-xl space-y-5">
-          <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center mx-auto text-[#E8683E] shadow-2xs">
+          <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center mx-auto text-[#FB923C] shadow-2xs">
             <Sparkles className="w-6 h-6" />
           </div>
 
@@ -29,7 +29,7 @@ export const ServiceFinalCTA = ({
           <div className="flex flex-wrap items-center justify-center gap-4 pt-3">
             <Link
               to={ctaTo}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#E8683E] hover:bg-orange-600 text-white font-bold text-sm shadow-md hover:shadow-orange-500/25 active:scale-95 transition-all"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#C74E23] hover:bg-orange-600 text-white font-bold text-sm shadow-md hover:shadow-orange-500/25 active:scale-95 transition-all"
             >
               <span>{ctaText}</span>
               <ArrowRight className="w-4 h-4" />
