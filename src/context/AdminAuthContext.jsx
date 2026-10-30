@@ -31,6 +31,7 @@ export const AdminAuthProvider = ({ children }) => {
 
   const loginWithUser = (user) => {
     if (!user) return { success: false, error: 'User is required' };
+    logout();
     const adminProfile = {
       id: user.id || 'DS-CEO-001',
       name: user.name || user.username || 'Venu Durgam',
@@ -47,6 +48,9 @@ export const AdminAuthProvider = ({ children }) => {
   };
 
   const login = async (email, password) => {
+    // Clear any previous user session first
+    logout();
+
     // Validate credentials using static auth storage
     const localRes = authenticateUser({ email, password });
     if (localRes.success && (localRes.user.role === 'CEO' || localRes.user.role === 'admin')) {

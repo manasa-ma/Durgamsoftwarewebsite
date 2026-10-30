@@ -35,22 +35,16 @@ export const AdminLoginPage = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Clear any legacy saved remember keys
+  // Clear any saved login sessions and remember keys when opening admin login page
   useEffect(() => {
     try {
+      localStorage.removeItem('durgam_admin_user');
+      localStorage.removeItem('durgam_admin_token');
       localStorage.removeItem('durgam_remember_admin');
     } catch {
       // silent
     }
   }, []);
-
-  // If already authenticated, redirect to dashboard
-  useEffect(() => {
-    if (isAuthenticated) {
-      const from = location.state?.from?.pathname || '/admin/dashboard';
-      navigate(from, { replace: true });
-    }
-  }, [isAuthenticated, navigate, location]);
 
   // Set document title and noindex
   useEffect(() => {

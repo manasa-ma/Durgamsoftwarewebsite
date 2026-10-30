@@ -37,11 +37,13 @@ export const EmployeeLoginPage = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Clear any legacy saved remember keys
+  // Clear any saved login sessions and remember keys when opening the login page
   useEffect(() => {
     try {
       localStorage.removeItem('durgam_remember_employee');
       localStorage.removeItem('durgam_remember_admin');
+      localStorage.removeItem('durgam_employee_user');
+      localStorage.removeItem('durgam_employee_token');
     } catch {
       // silent
     }
@@ -182,21 +184,6 @@ export const EmployeeLoginPage = () => {
             </div>
           )}
 
-          {/* Active Session Notification if already authenticated */}
-          {isAuthenticated && employeeUser && (
-            <div className="mb-5 p-3 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-center justify-between">
-              <div>
-                <span className="font-bold">Active session:</span> {employeeUser.name} ({employeeUser.department})
-              </div>
-              <Link
-                to="/employee/dashboard"
-                className="inline-flex items-center gap-1 font-bold text-[#C74E23] hover:underline shrink-0"
-              >
-                Go to Dashboard
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-          )}
 
           {/* Error Message Alert: "Invalid email or password" */}
           {errorMessage && (

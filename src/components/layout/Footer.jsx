@@ -244,6 +244,14 @@ export const Footer = () => {
             <Link to="/legal" className="hover:text-brand-orange transition-colors">
               Legal Information
             </Link>
+            <span className="text-slate-600 hidden sm:inline">•</span>
+            <Link to="/employee/login" className="hover:text-brand-orange transition-colors">
+              Employee Portal
+            </Link>
+            <span className="text-slate-600 hidden sm:inline">•</span>
+            <Link to="/admin/login" className="hover:text-brand-orange transition-colors">
+              Admin Login
+            </Link>
           </div>
         </div>
       </div>
