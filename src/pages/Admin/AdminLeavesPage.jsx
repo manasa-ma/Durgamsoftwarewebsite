@@ -19,6 +19,7 @@ import {
   Download,
 } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
+import { getSharedLeaves, updateSharedLeaveStatus, calculateLeavesStats } from '../../utils/sharedStorage';
 
 const DEPARTMENTS = [
   'All Departments',
@@ -61,36 +62,46 @@ export const AdminLeavesPage = () => {
     { key: 'Rejected', label: 'Rejected', badge: stats.rejected },
   ];
 
-  const fetchLeaves = async (silent = false) => {
+  const fetchLeaves = (silent = false) => {
     if (!silent) setLoading(true);
     setError('');
 
     try {
-      const params = new URLSearchParams();
-      if (selectedStatus !== 'all') params.append('status', selectedStatus);
-      if (selectedDepartment !== 'All Departments') params.append('department', selectedDepartment);
-      if (searchTerm.trim()) params.append('search', searchTerm.trim());
+      const allLeaves = getSharedLeaves();
 
-      const res = await fetch(`/api/admin/leaves?${params.toString()}`, {
-        headers: getAuthHeaders(),
-      });
-      const data = await res.json();
+      let filtered = allLeaves;
 
-      if (res.ok && data.success) {
-        setLeaves(data.leaves || []);
-        if (data.stats) setStats(data.stats);
-      } else if (!silent) {
-        setError(data.message || 'Failed to retrieve leave requests.');
+      // Filter by status tab
+      if (selectedStatus && selectedStatus !== 'all') {
+        filtered = filtered.filter(
+          (l) => l.status && l.status.toLowerCase() === selectedStatus.toLowerCase()
+        );
       }
-    } catch {
-      // Clean fallback for static mode
-      setLeaves([]);
-      setStats({
-        total: 0,
-        pending: 0,
-        approved: 0,
-        rejected: 0,
-      });
+
+      // Filter by department
+      if (selectedDepartment && selectedDepartment !== 'All Departments') {
+        filtered = filtered.filter(
+          (l) => l.department && l.department.toLowerCase().includes(selectedDepartment.toLowerCase())
+        );
+      }
+
+      // Filter by search term
+      if (searchTerm.trim()) {
+        const term = searchTerm.toLowerCase();
+        filtered = filtered.filter(
+          (l) =>
+            (l.employeeName && l.employeeName.toLowerCase().includes(term)) ||
+            (l.employeeId && l.employeeId.toLowerCase().includes(term)) ||
+            (l.leaveType && l.leaveType.toLowerCase().includes(term)) ||
+            (l.reason && l.reason.toLowerCase().includes(term)) ||
+            (l.department && l.department.toLowerCase().includes(term))
+        );
+      }
+
+      setLeaves(filtered);
+      setStats(calculateLeavesStats(allLeaves));
+    } catch (err) {
+      console.warn('Error reading leaves from local storage:', err);
     } finally {
       if (!silent) setLoading(false);
     }
@@ -99,17 +110,15 @@ export const AdminLeavesPage = () => {
   useEffect(() => {
     fetchLeaves();
 
-    // Auto-polling every 12 seconds so employee leave applications reflect immediately for CEO
-    const interval = setInterval(() => {
-      fetchLeaves(true);
-    }, 12000);
-
-    const onFocus = () => fetchLeaves(true);
-    window.addEventListener('focus', onFocus);
+    const onUpdate = () => fetchLeaves(true);
+    window.addEventListener('durgam_leaves_updated', onUpdate);
+    window.addEventListener('storage', onUpdate);
+    const interval = setInterval(() => fetchLeaves(true), 3000);
 
     return () => {
+      window.removeEventListener('durgam_leaves_updated', onUpdate);
+      window.removeEventListener('storage', onUpdate);
       clearInterval(interval);
-      window.removeEventListener('focus', onFocus);
     };
   }, [selectedStatus, selectedDepartment]);
 
@@ -133,45 +142,22 @@ export const AdminLeavesPage = () => {
     setActionSubmitting(true);
 
     try {
-      const res = await fetch(`/api/admin/leaves/${activeModal.item.id}/status`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          ...getAuthHeaders(),
-        },
-        body: JSON.stringify({
-          status: activeModal.action,
-          managerRemarks: modalRemarks.trim(),
-        }),
+      const updatedLeave = updateSharedLeaveStatus(activeModal.item.id, {
+        status: activeModal.action,
+        managerRemarks: modalRemarks.trim(),
+        reviewedBy: adminUser?.name || 'CEO',
       });
 
-      const data = await res.json();
-
-      if (res.ok && data.success) {
-        // Optimistically update list
-        setLeaves((prev) =>
-          prev.map((l) => (l.id === activeModal.item.id ? data.leave : l))
-        );
-
-        // Update counts
-        setStats((prev) => {
-          const wasPending = activeModal.item.status === 'Pending';
-          return {
-            ...prev,
-            pending: wasPending ? Math.max(0, prev.pending - 1) : prev.pending,
-            approved: activeModal.action === 'Approved' ? prev.approved + 1 : prev.approved,
-            rejected: activeModal.action === 'Rejected' ? prev.rejected + 1 : prev.rejected,
-          };
-        });
-
-        setToastMessage(data.message);
+      if (updatedLeave) {
+        setToastMessage(`Leave application has been ${activeModal.action.toLowerCase()} successfully!`);
         setTimeout(() => setToastMessage(''), 4000);
         setActiveModal(null);
+        fetchLeaves(true);
       } else {
-        alert(data.message || 'Failed to update leave request status.');
+        alert('Failed to update leave request status.');
       }
     } catch {
-      alert('Network error while updating leave request status.');
+      alert('Error while updating leave request status.');
     } finally {
       setActionSubmitting(false);
     }

@@ -66,7 +66,7 @@ When a visitor opens a subpage directly in a browser or refreshes the page, the 
             <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
             <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
           </conditions>
-          <action type="Rewrite" url="/" />
+          <action type="Rewrite" url="/index.html" />
         </rule>
       </rules>
     </rewrite>
@@ -138,32 +138,48 @@ server {
 ## 4. Node.js / Express Server
 
 If running via `npm start` or `npm run server` (`node server/index.js`):
-- The server automatically handles SPA routing with Express static middleware and a wildcard `app.get('*')` catch-all.
+- The server automatically handles SPA routing with Express static middleware and a wildcard fallback.
 - Any non-API route serves `dist/index.html` with status `200 OK`.
 
 ---
 
-## 5. Subdomain & Nested Subsection Routing
+## 5. Cloud Platforms (Vercel, Netlify, Cloudflare Pages)
 
-### Does this work for subdomains (e.g. `subdomain.yourcompany.com`)?
-**Yes, 100% out of the box.**
-When deploying to a subdomain (such as `careers.yourcompany.com`, `admin.yourcompany.com`, or `portal.yourcompany.com`):
-1. **Document Root**: In Apache (VirtualHost / cPanel) or IIS, a subdomain points to its own folder where you deploy `dist/`.
-2. **Fallback Execution**: When a user opens any subsection URL (e.g. `https://subdomain.yourcompany.com/careers/3` or `https://subdomain.yourcompany.com/admin/login`) directly in a new tab:
-   - The server verifies that `/careers/3` is not a physical file.
-   - The `.htaccess` (Apache) or `web.config` (IIS) rewrites the request internally to `index.html` at the subdomain's root.
-   - The browser receives `index.html` with status `200 OK`.
-3. **Asset Resolution on Nested URLs**:
-   - All bundled CSS, JS, and image assets use root-relative paths (`/assets/...`).
-   - Even on deeply nested subsection URLs (like `/admin/jobs/new` or `/careers/senior-engineer`), the browser requests `https://subdomain.yourcompany.com/assets/index-*.js` directly from the subdomain root. No 404s or broken styles occur.
+### Vercel (`vercel.json`)
+Placed at root of the repository:
+```json
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
+```
 
-### Subdomain vs. Subdirectory (Important Distinction):
-- **Subdomain** (`https://portal.yourcompany.com/subsection`): Works immediately with standard build and `.htaccess` / `web.config`!
-- **Subdirectory / Subfolder** (`https://yourcompany.com/portal/subsection`): If you place the site inside a subfolder rather than a subdomain, configure `base: '/portal/'` in `vite.config.js` and set `basename="/portal"` in React Router.
+### Netlify & Cloudflare Pages (`public/_redirects`)
+Automatically bundled to `dist/_redirects`:
+```text
+/*    /index.html   200
+```
 
 ---
 
-## 6. How to Deploy Updates
+## 6. Subdomain & Custom Live Domains Support
+
+### Does this work when domain changes to company domain (e.g. `https://durgamsoft.com` or `https://portal.durgamsoft.com` or `http://192.168.1.100`)?
+**Yes, 100% domain-agnostic.**
+- **No hardcoded domain names**: The code contains no hardcoded hostnames. All asset paths (`/assets/...`) and API endpoints (`/api/...`) use root-relative paths.
+- **Universal Route Support**: Every single route works under ANY live URL or IP address, including:
+  - Public marketing routes: `/`, `/about`, `/services`, `/products`, `/careers`, `/contact`, `/book-demo`, `/landingpage`, `/blog`
+  - Admin/CEO portal: `/admin/login`, `/admin/signup`, `/admin/dashboard`, `/admin/employees`, `/admin/attendance`, `/admin/leaves`, `/admin/announcements`, `/admin/profile`, `/admin/settings`
+  - Employee portal: `/employee/login`, `/employee/signup`, `/employee/dashboard`, `/employee/attendance`, `/employee/leaves`
+- **Direct Navigation & Page Refresh (F5)**: Typing any URL directly into the browser or pressing refresh returns HTTP 200 with `index.html`, and React Router instantly loads the exact page without 404.
+
+---
+
+## 7. How to Deploy Updates
 
 1. In the project root, run:
    ```bash
@@ -171,8 +187,10 @@ When deploying to a subdomain (such as `careers.yourcompany.com`, `admin.yourcom
    ```
 2. Verify that `dist/` contains:
    - `dist/index.html`
-   - `dist/.htaccess` (for Apache)
-   - `dist/web.config` (for IIS)
+   - `dist/.htaccess` (for Apache / cPanel / LiteSpeed)
+   - `dist/web.config` (for Microsoft IIS)
+   - `dist/nginx.conf` (for Nginx)
+   - `dist/_redirects` (for Netlify / Cloudflare Pages)
    - `dist/assets/`
-3. Upload or synchronize the entire contents of the `dist/` folder to your server's document root (e.g., `public_html` or `wwwroot`).
-4. Any subpage refreshed or entered directly (e.g. `https://your-domain.com/careers` or `https://your-domain.com/admin/login`) will now load instantly without a 404 error.
+3. Upload or synchronize the entire contents of the `dist/` folder to your server's document root (e.g., `/var/www/html`, `public_html`, or `C:\inetpub\wwwroot`).
+4. Any subpage refreshed or entered directly (e.g. `https://your-company-domain.com/admin/login` or `https://your-company-domain.com/employee/login` or `https://your-company-domain.com/landingpage`) will load instantly without a 404 error.

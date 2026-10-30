@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { calculateWorkHours } from '../../utils/workHoursCalculator';
+import { getSharedAttendance, calculateAttendanceSummary } from '../../utils/sharedStorage';
 
 const DEPARTMENTS = [
   'All Departments',
@@ -62,39 +63,52 @@ export const AdminAttendancePage = () => {
   // Photo viewer modal state
   const [viewingPhoto, setViewingPhoto] = useState(null); // { url, type: 'Punch In' | 'Punch Out', record }
 
-  const fetchAttendance = async (silent = false) => {
+  const fetchAttendance = (silent = false) => {
     if (!silent) setLoading(true);
     setError('');
 
     try {
-      const params = new URLSearchParams();
-      if (selectedDate && selectedDate !== 'all') params.append('date', selectedDate);
-      if (selectedDepartment !== 'All Departments') params.append('department', selectedDepartment);
-      if (selectedStatus !== 'all') params.append('status', selectedStatus);
-      if (searchTerm.trim()) params.append('search', searchTerm.trim());
+      const allRecords = getSharedAttendance();
 
-      const res = await fetch(`/api/admin/attendance?${params.toString()}`, {
-        headers: getAuthHeaders(),
-      });
-      const data = await res.json();
+      let filtered = allRecords;
 
-      if (res.ok && data.success) {
-        setRecords(data.records || []);
-        if (data.summary) setSummary(data.summary);
-      } else if (!silent) {
-        setError(data.message || 'Failed to load attendance records.');
+      // Filter by date
+      if (selectedDate && selectedDate !== 'all') {
+        filtered = filtered.filter((r) => r.date === selectedDate);
       }
-    } catch {
-      // Clean fallback for static mode
-      setRecords([]);
-      setSummary({
-        totalToday: 0,
-        present: 0,
-        late: 0,
-        halfDay: 0,
-        wfh: 0,
-        absent: 0,
-      });
+
+      // Filter by department
+      if (selectedDepartment && selectedDepartment !== 'All Departments') {
+        filtered = filtered.filter(
+          (r) => r.department && r.department.toLowerCase().includes(selectedDepartment.toLowerCase())
+        );
+      }
+
+      // Filter by status
+      if (selectedStatus && selectedStatus !== 'all') {
+        filtered = filtered.filter(
+          (r) => r.status && r.status.toLowerCase() === selectedStatus.toLowerCase()
+        );
+      }
+
+      // Filter by search
+      if (searchTerm.trim()) {
+        const term = searchTerm.toLowerCase();
+        filtered = filtered.filter(
+          (r) =>
+            (r.employeeName && r.employeeName.toLowerCase().includes(term)) ||
+            (r.employeeId && r.employeeId.toLowerCase().includes(term)) ||
+            (r.location && r.location.toLowerCase().includes(term)) ||
+            (r.department && r.department.toLowerCase().includes(term))
+        );
+      }
+
+      setRecords(filtered);
+
+      const calculatedSummary = calculateAttendanceSummary(allRecords, todayStr);
+      setSummary(calculatedSummary);
+    } catch (err) {
+      console.warn('Error reading attendance from local storage:', err);
     } finally {
       if (!silent) setLoading(false);
     }
@@ -103,17 +117,15 @@ export const AdminAttendancePage = () => {
   useEffect(() => {
     fetchAttendance();
 
-    // Auto-polling every 12 seconds so employee punches with photo reflect in real time for CEO
-    const interval = setInterval(() => {
-      fetchAttendance(true);
-    }, 12000);
-
-    const onFocus = () => fetchAttendance(true);
-    window.addEventListener('focus', onFocus);
+    const onUpdate = () => fetchAttendance(true);
+    window.addEventListener('durgam_attendance_updated', onUpdate);
+    window.addEventListener('storage', onUpdate);
+    const interval = setInterval(() => fetchAttendance(true), 3000);
 
     return () => {
+      window.removeEventListener('durgam_attendance_updated', onUpdate);
+      window.removeEventListener('storage', onUpdate);
       clearInterval(interval);
-      window.removeEventListener('focus', onFocus);
     };
   }, [selectedDate, selectedDepartment, selectedStatus]);
 

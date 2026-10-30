@@ -16,6 +16,8 @@ import {
   Calendar,
 } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
+import { getSharedAttendance, getSharedLeaves } from '../../utils/sharedStorage';
+import { getRegisteredUsers } from '../../utils/authStorage';
 import durgamSoftLogo from '../../assets/logos/durgamsoft-logo.webp';
 
 export const AdminDashboardPage = () => {
@@ -41,6 +43,16 @@ export const AdminDashboardPage = () => {
   const fetchDashboardData = () => {
     setLoading(true);
     setError('');
+
+    const allAttendance = getSharedAttendance();
+    const todayStr = new Date().toISOString().split('T')[0];
+    const todayAttCount = allAttendance.filter((r) => r.date === todayStr).length;
+
+    const allLeaves = getSharedLeaves();
+    const pendingLeaves = allLeaves.filter((l) => l.status === 'Pending').length;
+
+    const registeredUsers = getRegisteredUsers();
+
     setStats({
       totalJobs: 6,
       publishedJobs: 6,
@@ -51,15 +63,26 @@ export const AdminDashboardPage = () => {
       totalBlogs: 8,
       publishedBlogs: 8,
       totalAnnouncements: 2,
-      todayAttendanceCount: 0,
-      pendingLeavesCount: 0,
-      totalEmployeesCount: 1,
+      todayAttendanceCount: todayAttCount,
+      pendingLeavesCount: pendingLeaves,
+      totalEmployeesCount: Math.max(1, registeredUsers.length),
     });
     setLoading(false);
   };
 
   useEffect(() => {
     fetchDashboardData();
+
+    const onUpdate = () => fetchDashboardData();
+    window.addEventListener('durgam_attendance_updated', onUpdate);
+    window.addEventListener('durgam_leaves_updated', onUpdate);
+    window.addEventListener('storage', onUpdate);
+
+    return () => {
+      window.removeEventListener('durgam_attendance_updated', onUpdate);
+      window.removeEventListener('durgam_leaves_updated', onUpdate);
+      window.removeEventListener('storage', onUpdate);
+    };
   }, []);
 
   const statCards = [

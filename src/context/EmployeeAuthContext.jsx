@@ -8,6 +8,12 @@ import {
 } from '../data/employeeMockData';
 import { calculateWorkHours } from '../utils/workHoursCalculator';
 import { authenticateUser } from '../utils/authStorage';
+import {
+  saveSharedAttendanceRecord,
+  getEmployeeAttendanceRecords,
+  saveSharedLeaveRequest,
+  getEmployeeLeaves,
+} from '../utils/sharedStorage';
 
 const EmployeeAuthContext = createContext(null);
 
@@ -267,17 +273,21 @@ export const EmployeeAuthProvider = ({ children }) => {
     const key = getUserStorageKey(employeeUser);
     const todayStr = new Date().toISOString().split('T')[0];
 
-    // Load user's attendance records
+    // Load user's attendance records (check shared storage first)
     try {
-      const savedAtt = localStorage.getItem(`durgam_employee_attendance_${key}`);
-      if (savedAtt) {
-        setAttendanceRecords(JSON.parse(savedAtt));
+      const sharedAtt = getEmployeeAttendanceRecords(employeeUser.id);
+      if (sharedAtt && sharedAtt.length > 0) {
+        setAttendanceRecords(sharedAtt);
       } else {
-        setAttendanceRecords(INITIAL_ATTENDANCE_HISTORY);
-        localStorage.setItem(`durgam_employee_attendance_${key}`, JSON.stringify(INITIAL_ATTENDANCE_HISTORY));
+        const savedAtt = localStorage.getItem(`durgam_employee_attendance_${key}`);
+        if (savedAtt) {
+          setAttendanceRecords(JSON.parse(savedAtt));
+        } else {
+          setAttendanceRecords([]);
+        }
       }
     } catch {
-      setAttendanceRecords(INITIAL_ATTENDANCE_HISTORY);
+      setAttendanceRecords([]);
     }
 
     // Load user's today attendance status
@@ -301,17 +311,21 @@ export const EmployeeAuthProvider = ({ children }) => {
       setTodayAttendance(getInitialTodayStatus());
     }
 
-    // Load user's leave requests
+    // Load user's leave requests (check shared storage first)
     try {
-      const savedLeaves = localStorage.getItem(`durgam_employee_leaves_${key}`);
-      if (savedLeaves) {
-        setLeaveRequests(JSON.parse(savedLeaves));
+      const sharedLeaves = getEmployeeLeaves(employeeUser.id);
+      if (sharedLeaves && sharedLeaves.length > 0) {
+        setLeaveRequests(sharedLeaves);
       } else {
-        setLeaveRequests(INITIAL_LEAVE_REQUESTS);
-        localStorage.setItem(`durgam_employee_leaves_${key}`, JSON.stringify(INITIAL_LEAVE_REQUESTS));
+        const savedLeaves = localStorage.getItem(`durgam_employee_leaves_${key}`);
+        if (savedLeaves) {
+          setLeaveRequests(JSON.parse(savedLeaves));
+        } else {
+          setLeaveRequests([]);
+        }
       }
     } catch {
-      setLeaveRequests(INITIAL_LEAVE_REQUESTS);
+      setLeaveRequests([]);
     }
 
     // Load user's leave balances
@@ -333,6 +347,43 @@ export const EmployeeAuthProvider = ({ children }) => {
       setLeaveBalances(INITIAL_LEAVE_BALANCES);
     }
   }, [employeeUser?.email, employeeUser?.id]);
+
+  // Real-time synchronization when Admin updates leaves or attendance
+  useEffect(() => {
+    if (!employeeUser?.id) return;
+
+    const onLeavesUpdated = () => {
+      try {
+        const sharedLeaves = getEmployeeLeaves(employeeUser.id);
+        if (sharedLeaves && sharedLeaves.length > 0) {
+          setLeaveRequests(sharedLeaves);
+        }
+      } catch {
+        // silent
+      }
+    };
+
+    const onAttendanceUpdated = () => {
+      try {
+        const sharedAtt = getEmployeeAttendanceRecords(employeeUser.id);
+        if (sharedAtt && sharedAtt.length > 0) {
+          setAttendanceRecords(sharedAtt);
+        }
+      } catch {
+        // silent
+      }
+    };
+
+    window.addEventListener('durgam_leaves_updated', onLeavesUpdated);
+    window.addEventListener('durgam_attendance_updated', onAttendanceUpdated);
+    window.addEventListener('storage', onLeavesUpdated);
+
+    return () => {
+      window.removeEventListener('durgam_leaves_updated', onLeavesUpdated);
+      window.removeEventListener('durgam_attendance_updated', onAttendanceUpdated);
+      window.removeEventListener('storage', onLeavesUpdated);
+    };
+  }, [employeeUser?.id]);
 
 
   // Persist per-user changes
@@ -473,6 +524,7 @@ export const EmployeeAuthProvider = ({ children }) => {
       };
     }
 
+    logout();
     setEmployeeUser(fullEmployeeProfile);
     localStorage.setItem('durgam_employee_user', JSON.stringify(fullEmployeeProfile));
 
@@ -497,14 +549,20 @@ export const EmployeeAuthProvider = ({ children }) => {
       setTodayAttendance(newTodayStatus);
       localStorage.setItem(`durgam_employee_today_status_${key}`, JSON.stringify(newTodayStatus));
 
+      const isLate = now.getHours() > 9 || (now.getHours() === 9 && now.getMinutes() > 30);
+      const status = isLate ? 'Late' : 'Present';
+
       const newRecord = {
         id: `att-${Date.now()}`,
+        employeeId: fullEmployeeProfile.id,
+        employeeName: fullEmployeeProfile.name,
+        department: fullEmployeeProfile.department,
         date: dateStr,
         day: now.toLocaleDateString('en-US', { weekday: 'long' }),
         checkIn: timeStr,
         checkOut: '--:--',
         workHours: 'In Progress',
-        status: 'Present',
+        status,
         photoUrl: loginPhoto,
         punchInPhoto: loginPhoto,
         punchOutPhoto: null,
@@ -517,6 +575,9 @@ export const EmployeeAuthProvider = ({ children }) => {
         localStorage.setItem(`durgam_employee_attendance_${key}`, JSON.stringify(updated));
         return updated;
       });
+
+      // Save to shared storage so Admin sees the punch in immediately
+      saveSharedAttendanceRecord(newRecord);
     }
 
     return { success: true };
@@ -542,6 +603,9 @@ export const EmployeeAuthProvider = ({ children }) => {
   const logout = () => {
     setEmployeeUser(null);
     localStorage.removeItem('durgam_employee_user');
+    localStorage.removeItem('durgam_employee_token');
+    localStorage.removeItem('durgam_remember_employee');
+    localStorage.removeItem('durgam_remember_admin');
     setTodayAttendance(getInitialTodayStatus());
     setAttendanceRecords([]);
     setLeaveRequests([]);
@@ -575,6 +639,9 @@ export const EmployeeAuthProvider = ({ children }) => {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const dayName = days[now.getDay()];
 
+    const isLate = now.getHours() > 9 || (now.getHours() === 9 && now.getMinutes() > 30);
+    const status = isLate ? 'Late' : 'Present';
+
     const updatedToday = {
       hasCheckedIn: true,
       hasCheckedOut: false,
@@ -589,12 +656,15 @@ export const EmployeeAuthProvider = ({ children }) => {
 
     const newRecord = {
       id: `att-${Date.now()}`,
+      employeeId: employeeUser?.id || 'DS-EMP-001',
+      employeeName: employeeUser?.name || 'Employee',
+      department: employeeUser?.department || 'Software Engineer',
       date: dateStr,
       day: dayName,
       checkIn: timeStr,
       checkOut: '--:--',
       workHours: 'In Progress',
-      status: 'Present',
+      status,
       photoUrl: photoUrl || null,
       punchInPhoto: photoUrl || null,
       punchOutPhoto: null,
@@ -605,6 +675,9 @@ export const EmployeeAuthProvider = ({ children }) => {
       const filtered = prev.filter((r) => r.date !== dateStr);
       return [newRecord, ...filtered];
     });
+
+    // Save to shared localStorage so Admin Attendance Page displays it immediately
+    saveSharedAttendanceRecord(newRecord);
 
     return { success: true, time: timeStr, photoUrl, location };
   };
@@ -636,12 +709,13 @@ export const EmployeeAuthProvider = ({ children }) => {
     };
     setTodayAttendance(updatedToday);
 
+    let updatedRecord = null;
     setAttendanceRecords((prev) => {
       return prev.map((record) => {
         if (record.date === dateStr) {
           const recIn = record.checkIn && record.checkIn !== '--:--' ? record.checkIn : inTime;
           const actualHours = calculateWorkHours(recIn, timeStr);
-          return {
+          updatedRecord = {
             ...record,
             checkOut: timeStr,
             workHours: actualHours,
@@ -650,10 +724,32 @@ export const EmployeeAuthProvider = ({ children }) => {
             punchOutPhoto: photoUrl || null,
             location,
           };
+          return updatedRecord;
         }
         return record;
       });
     });
+
+    if (!updatedRecord) {
+      updatedRecord = {
+        id: `att-${Date.now()}`,
+        employeeId: employeeUser?.id || 'DS-EMP-001',
+        employeeName: employeeUser?.name || 'Employee',
+        department: employeeUser?.department || 'Software Engineer',
+        date: dateStr,
+        day: now.toLocaleDateString('en-US', { weekday: 'long' }),
+        checkIn: inTime,
+        checkOut: timeStr,
+        workHours: computedHours,
+        status: 'Present',
+        photoUrl: photoUrl || null,
+        punchOutPhoto: photoUrl || null,
+        location,
+      };
+    }
+
+    // Save to shared localStorage so Admin Attendance Page displays it immediately
+    saveSharedAttendanceRecord(updatedRecord);
 
     return { success: true, time: timeStr, photoUrl, location };
   };
@@ -686,6 +782,18 @@ export const EmployeeAuthProvider = ({ children }) => {
         return record;
       })
     );
+
+    if (employeeUser?.id) {
+      saveSharedAttendanceRecord({
+        employeeId: employeeUser.id,
+        employeeName: employeeUser.name,
+        department: employeeUser.department,
+        date: dateStr,
+        photoUrl,
+        punchInPhoto: photoUrl,
+        location: locStr,
+      });
+    }
   };
 
   /**
@@ -702,11 +810,14 @@ export const EmployeeAuthProvider = ({ children }) => {
   }) => {
     const newRequest = {
       id: `LR-2026-${Math.floor(100 + Math.random() * 900)}`,
+      employeeId: employeeUser?.id || 'DS-EMP-001',
+      employeeName: employeeUser?.name || 'Employee',
+      department: employeeUser?.department || 'Software Engineer',
       leaveType,
       fromDate,
       toDate,
       daysCount: Number(daysCount),
-      reason,
+      reason: reason ? reason.trim() : '',
       attachmentUrl: attachmentUrl || null,
       attachmentName: attachmentName || null,
       appliedOn: new Date().toISOString().split('T')[0],
@@ -715,6 +826,9 @@ export const EmployeeAuthProvider = ({ children }) => {
     };
 
     setLeaveRequests((prev) => [newRequest, ...prev]);
+
+    // Save to shared localStorage so Admin Leave Approvals Page displays it immediately
+    saveSharedLeaveRequest(newRequest);
 
     // Deduct from paid leave balance unless it's unpaid / LOP
     const isUnpaid =

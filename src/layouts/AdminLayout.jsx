@@ -18,6 +18,7 @@ import {
   User,
 } from 'lucide-react';
 import { useAdminAuth } from '../context/AdminAuthContext';
+import { getSharedLeaves } from '../utils/sharedStorage';
 import durgamSoftLogo from '../assets/logos/durgamsoft-logo.webp';
 
 export const AdminLayout = () => {
@@ -28,10 +29,27 @@ export const AdminLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Static notification badges
+  // Dynamic notification badges
   useEffect(() => {
     setUnreadAppsCount(0);
-    setPendingLeavesCount(0);
+    const updatePendingBadge = () => {
+      try {
+        const allLeaves = getSharedLeaves();
+        const pendingCount = allLeaves.filter((l) => l.status === 'Pending').length;
+        setPendingLeavesCount(pendingCount);
+      } catch {
+        // silent
+      }
+    };
+
+    updatePendingBadge();
+    window.addEventListener('durgam_leaves_updated', updatePendingBadge);
+    window.addEventListener('storage', updatePendingBadge);
+
+    return () => {
+      window.removeEventListener('durgam_leaves_updated', updatePendingBadge);
+      window.removeEventListener('storage', updatePendingBadge);
+    };
   }, [location.pathname]);
 
   // Enforce noindex, nofollow for search engines
