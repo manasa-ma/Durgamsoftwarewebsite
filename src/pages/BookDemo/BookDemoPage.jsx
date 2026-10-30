@@ -23,7 +23,17 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { Breadcrumb } from '../../components/common/Breadcrumb';
-import { openEmailClient } from '../../utils/applicationDispatch';
+import { WhatsAppIcon } from '../../components/common/WhatsAppIcon';
+import {
+  openEmailClient,
+  openWhatsApp,
+  getMailtoLink,
+  getGmailWebLink,
+  getWhatsAppLink,
+  formatDemoWhatsAppMessage,
+  COMPANY_WHATSAPP_NUMBER,
+  COMPANY_PHONE_DISPLAY,
+} from '../../utils/applicationDispatch';
 import { Button } from '../../components/buttons/Button';
 import { updatePageMeta } from '../../utils/seo';
 import { FollowOnSocial } from '../../components/common/FollowOnSocial';
@@ -251,9 +261,32 @@ export const BookDemoPage = ({ isLandingPage: propIsLandingPage }) => {
     );
   };
 
-  const gmailComposeLink = `https://mail.google.com/mail/?view=cm&fs=1&to=contact@billmasterapp.com&su=${encodeURIComponent(
-    emailSubject
-  )}&body=${encodeURIComponent(formatEmailBody())}`;
+  const whatsappMessage = formatDemoWhatsAppMessage({
+    name: formData.name,
+    phone: formData.phone,
+    email: formData.email,
+    businessName: formData.businessName,
+    businessType: formData.businessType,
+    interestedProduct: isLandingPage ? '' : formData.interestedProduct,
+    city: formData.city,
+    state: formData.state,
+    pincode: formData.pincode,
+    message: formData.message,
+  });
+
+  const mailtoLink = getMailtoLink({
+    to: 'contact@billmasterapp.com',
+    subject: emailSubject,
+    body: formatEmailBody(),
+  });
+
+  const gmailComposeLink = getGmailWebLink({
+    to: 'contact@billmasterapp.com',
+    subject: emailSubject,
+    body: formatEmailBody(),
+  });
+
+  const whatsappLink = getWhatsAppLink(whatsappMessage, COMPANY_WHATSAPP_NUMBER);
 
   const handleCopyDetails = async () => {
     const textToCopy = `To: contact@billmasterapp.com\nSubject: ${emailSubject}\n\n${formatEmailBody()}`;
@@ -273,6 +306,16 @@ export const BookDemoPage = ({ isLandingPage: propIsLandingPage }) => {
       subject: emailSubject,
       body: formatEmailBody(),
     });
+    setSubmitted(true);
+  };
+
+  const handleDirectWhatsAppDemo = (e) => {
+    e?.preventDefault();
+    if (!formData.name || !formData.phone) {
+      alert('Please fill in your name and phone number before booking via WhatsApp.');
+      return;
+    }
+    openWhatsApp(whatsappMessage, COMPANY_WHATSAPP_NUMBER);
     setSubmitted(true);
   };
 
@@ -491,16 +534,62 @@ export const BookDemoPage = ({ isLandingPage: propIsLandingPage }) => {
 
                   {/* Action Buttons */}
                   <div className="space-y-3 pt-2">
-                    <a
-                      href={gmailComposeLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-[#C74E23] hover:bg-[#d4582f] text-white font-bold text-sm shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
-                    >
-                      <Mail className="w-4 h-4" />
-                      <span>Send via Web Email (Gmail)</span>
-                      <ExternalLink className="w-3.5 h-3.5 opacity-80" />
-                    </a>
+                    {/* Priority WhatsApp Card */}
+                    <div className="p-4 rounded-2xl bg-gradient-to-br from-emerald-50 via-teal-50/50 to-emerald-50 border border-emerald-200 text-left space-y-2.5 shadow-2xs">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 rounded-xl bg-[#25D366] text-white flex items-center justify-center shrink-0 shadow-sm">
+                            <WhatsAppIcon className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <span className="font-bold text-slate-900 text-xs sm:text-sm block">
+                              Confirm Demo on WhatsApp
+                            </span>
+                            <span className="text-[11px] text-emerald-800 font-bold block">
+                              {COMPANY_PHONE_DISPLAY}
+                            </span>
+                          </div>
+                        </div>
+                        <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200 text-[10px] font-black uppercase tracking-wider">
+                          Instant Slot
+                        </span>
+                      </div>
+
+                      <p className="text-[11px] text-slate-600 leading-relaxed">
+                        Send your demo details directly to our product specialist on WhatsApp for instant slot confirmation and live walkthrough:
+                      </p>
+
+                      <a
+                        href={whatsappLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full inline-flex items-center justify-center gap-2 py-3 px-5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] active:bg-[#1da850] text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
+                      >
+                        <WhatsAppIcon className="w-4 h-4" />
+                        <span>Send Demo Request via WhatsApp ({COMPANY_PHONE_DISPLAY})</span>
+                      </a>
+                    </div>
+
+                    {/* Email Actions */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <a
+                        href={mailtoLink}
+                        className="inline-flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border border-stone-200 bg-white hover:bg-stone-50 text-slate-800 font-bold text-xs shadow-2xs transition-all active:scale-[0.98]"
+                      >
+                        <Mail className="w-3.5 h-3.5 text-[#C74E23]" />
+                        <span>Open in Mobile Mail App</span>
+                      </a>
+
+                      <a
+                        href={gmailComposeLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#C74E23] hover:bg-[#d4582f] text-white font-bold text-xs shadow-2xs transition-all active:scale-[0.98]"
+                      >
+                        <Mail className="w-3.5 h-3.5" />
+                        <span>Open in Web Gmail</span>
+                      </a>
+                    </div>
 
                     <button
                       type="button"
@@ -812,7 +901,7 @@ export const BookDemoPage = ({ isLandingPage: propIsLandingPage }) => {
                   </div>
 
                   {/* Submit Button */}
-                  <div className="pt-2 space-y-2">
+                  <div className="pt-2 space-y-2.5">
                     <Button
                       type="submit"
                       variant="primary"
@@ -820,22 +909,37 @@ export const BookDemoPage = ({ isLandingPage: propIsLandingPage }) => {
                       className="w-full gap-2 py-4 rounded-xl font-bold text-base shadow-md hover:shadow-[0_14px_30px_-6px_rgba(249,115,22,0.4)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 cursor-pointer"
                     >
                       <Calendar className="w-4 h-4" />
-                      <span>Request Demo</span>
+                      <span>Request Demo (Email &amp; WhatsApp)</span>
                     </Button>
+
+                    <button
+                      type="button"
+                      onClick={handleDirectWhatsAppDemo}
+                      className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs sm:text-sm transition-all duration-200 cursor-pointer active:scale-[0.99]"
+                    >
+                      <WhatsAppIcon className="w-4 h-4 text-emerald-600" />
+                      <span>Book Demo via WhatsApp ({COMPANY_PHONE_DISPLAY})</span>
+                    </button>
 
                     <p className="text-[11px] text-brand-secondary-text text-center flex items-center justify-center gap-1.5 pt-1">
                       <Mail className="w-3.5 h-3.5 text-[#C74E23] shrink-0" />
                       <span>
                         Direct delivery to{' '}
-                        <strong className="text-brand-navy font-semibold">contact@billmasterapp.com</strong>
+                        <strong className="text-brand-navy font-semibold">contact@billmasterapp.com</strong> &amp; WhatsApp{' '}
+                        <strong className="text-emerald-700 font-semibold">{COMPANY_PHONE_DISPLAY}</strong>
                       </span>
                     </p>
                   </div>
 
                   {/* Direct Contact Note */}
                   <p className="text-[12px] text-brand-secondary-text text-center pt-2">
-                    Need instant assistance? Call us directly at{' '}
-                    <a href="tel:+918374588099" className="font-semibold text-[#C74E23] hover:underline">
+                    Need instant assistance? Call or WhatsApp us directly at{' '}
+                    <a
+                      href={getWhatsAppLink('Hello Billmaster team, I would like to schedule a product demo.', COMPANY_WHATSAPP_NUMBER)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-[#C74E23] hover:underline"
+                    >
                       +91 83745 88099
                     </a>
                   </p>

@@ -111,6 +111,57 @@ export const formatApplicationWhatsAppMessage = ({
 };
 
 /**
+ * Construct pre-formatted WhatsApp message for general contact inquiry
+ */
+export const formatContactWhatsAppMessage = ({
+  name,
+  email,
+  company,
+  subject,
+  message,
+}) => {
+  return (
+    `*NEW CONTACT INQUIRY - DURGAM SOFT*\n\n` +
+    `*Full Name:* ${name || 'Visitor'}\n` +
+    `*Email Address:* ${email || 'Not Provided'}\n` +
+    (company ? `*Company:* ${company}\n` : '') +
+    `*Subject:* ${subject || 'General Inquiry'}\n\n` +
+    `*Message:*\n${message || 'No additional message provided.'}\n\n` +
+    `---\n_Sent via Durgam Soft Contact Page_`
+  );
+};
+
+/**
+ * Construct pre-formatted WhatsApp message for demo booking requests
+ */
+export const formatDemoWhatsAppMessage = ({
+  name,
+  phone,
+  email,
+  businessName,
+  businessType,
+  interestedProduct,
+  city,
+  state,
+  pincode,
+  message,
+}) => {
+  const locationStr = [city, state, pincode].filter(Boolean).join(', ');
+  return (
+    `*NEW DEMO REQUEST - BILLMASTER / DURGAM SOFT*\n\n` +
+    `*Client Name:* ${name || 'Client'}\n` +
+    `*Phone Number:* ${phone || 'Not Provided'}\n` +
+    `*Email Address:* ${email || 'Not Provided'}\n` +
+    (businessName ? `*Business Name:* ${businessName}\n` : '') +
+    `*Business Type:* ${businessType || 'Retail Store'}\n` +
+    (interestedProduct ? `*Interested Product:* ${interestedProduct}\n` : '') +
+    (locationStr ? `*Location:* ${locationStr}\n` : '') +
+    (message ? `\n*Requirements / Message:*\n${message}\n` : '') +
+    `\n---\n_Sent via Billmaster Demo Request Page_`
+  );
+};
+
+/**
  * Generate standard mailto link
  */
 export const getMailtoLink = ({ to = COMPANY_RECRUITMENT_EMAIL, subject, body }) => {
