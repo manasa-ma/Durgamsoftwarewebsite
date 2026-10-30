@@ -20,6 +20,20 @@ import { Button } from '../../components/buttons/Button';
 import { ResumeUploadField, formatFileSize } from '../../components/common/ResumeUploadField';
 import { updatePageMeta } from '../../utils/seo';
 import { CAREERS_PAGE_DATA } from '../../data/careers';
+import { WhatsAppIcon } from '../../components/common/WhatsAppIcon';
+import {
+  formatApplicationEmailBody,
+  formatApplicationWhatsAppMessage,
+  openEmailClient,
+  openWhatsApp,
+  getMailtoLink,
+  getGmailWebLink,
+  getWhatsAppLink,
+  submitApplicationData,
+  COMPANY_RECRUITMENT_EMAIL,
+  COMPANY_WHATSAPP_NUMBER,
+  COMPANY_PHONE_DISPLAY,
+} from '../../utils/applicationDispatch';
 
 export const JobDetailsPage = () => {
   const { jobId } = useParams();
@@ -71,41 +85,46 @@ export const JobDetailsPage = () => {
     setFormData((prev) => ({ ...prev, [field]: e.target.value }));
   };
 
-  const formatEmailBody = () => {
-    const resumeInfo = resumeFile
-      ? `${resumeFile.name} (${formatFileSize(resumeFile.size)})`
-      : 'Not Attached (Will attach to email)';
-    return (
-      `Hello Durgam Soft Recruitment Team,\n\n` +
-      `A new job application has been submitted for: ${job?.title || 'Open Position'}\n\n` +
-      `--------------------------------------------------\n` +
-      `CANDIDATE DETAILS\n` +
-      `--------------------------------------------------\n` +
-      `Full Name:           ${formData.name}\n` +
-      `Email Address:       ${formData.email}\n` +
-      `Phone Number:        ${formData.phone}\n` +
-      `Current Location:    ${formData.location}\n` +
-      `Position Applied:    ${job?.title || 'Open Position'}\n` +
-      `Relevant Experience: ${formData.experience}\n\n` +
-      `--------------------------------------------------\n` +
-      `RESUME ATTACHMENT\n` +
-      `--------------------------------------------------\n` +
-      `Uploaded Resume:     ${resumeInfo}\n\n` +
-      `--------------------------------------------------\n` +
-      `COVER NOTE / MESSAGE\n` +
-      `--------------------------------------------------\n` +
-      `${formData.coverNote || 'Not Provided'}\n\n` +
-      `--------------------------------------------------\n` +
-      `Sent via: Durgam Soft Careers Portal (www.durgamsoft.com/careers/${job?.id || ''})\n` +
-      `Applicant Note: Please attach the selected resume file (${resumeFile?.name || 'resume'}) to this email message.`
-    );
-  };
-
   const emailSubject = `[Job Application] ${job?.title || 'Position'} - ${formData.name || 'Applicant'}`;
 
-  const gmailComposeLink = `https://mail.google.com/mail/?view=cm&fs=1&to=careers@durgamsoft.com&su=${encodeURIComponent(
-    emailSubject
-  )}&body=${encodeURIComponent(formatEmailBody())}`;
+  const emailBody = formatApplicationEmailBody({
+    name: formData.name,
+    email: formData.email,
+    phone: formData.phone,
+    location: formData.location,
+    position: job?.title || 'Open Position',
+    experience: formData.experience,
+    coverNote: formData.coverNote,
+    resumeName: resumeFile?.name,
+    resumeSize: resumeFile ? formatFileSize(resumeFile.size) : '',
+    jobUrl: typeof window !== 'undefined' ? window.location.href : '',
+  });
+
+  const whatsappMessage = formatApplicationWhatsAppMessage({
+    name: formData.name,
+    email: formData.email,
+    phone: formData.phone,
+    location: formData.location,
+    position: job?.title || 'Open Position',
+    experience: formData.experience,
+    coverNote: formData.coverNote,
+    resumeName: resumeFile?.name,
+    resumeSize: resumeFile ? formatFileSize(resumeFile.size) : '',
+  });
+
+  const mailtoLink = getMailtoLink({
+    to: COMPANY_RECRUITMENT_EMAIL,
+    subject: emailSubject,
+    body: emailBody,
+  });
+
+  const gmailComposeLink = getGmailWebLink({
+    to: COMPANY_RECRUITMENT_EMAIL,
+    subject: emailSubject,
+    body: emailBody,
+  });
+
+  const whatsappLink = getWhatsAppLink(whatsappMessage, COMPANY_WHATSAPP_NUMBER);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -114,12 +133,49 @@ export const JobDetailsPage = () => {
       return;
     }
 
-    try {
-      // Directly open Web Email (Gmail) in browser instead of desktop Outlook
-      window.open(gmailComposeLink, '_blank', 'noopener,noreferrer');
-    } catch {
-      // Fallback handled smoothly by UI state
+    // 1. Submit application data to backend and local storage
+    submitApplicationData({
+      jobId: job?.id || '',
+      jobTitle: job?.title || 'General Application',
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      experience: formData.experience,
+      resumeName: resumeFile?.name || '',
+      coverNote: formData.coverNote,
+    });
+
+    // 2. Open email reliably: triggers native mail app on mobile phone (via mailto) and Gmail Web on laptop
+    openEmailClient({
+      to: COMPANY_RECRUITMENT_EMAIL,
+      subject: emailSubject,
+      body: emailBody,
+    });
+
+    setSubmitted(true);
+  };
+
+  const handleDirectWhatsAppApply = (e) => {
+    e?.preventDefault();
+    if (!formData.name || !formData.email || !formData.phone) {
+      alert('Please fill in your name, email, and phone number before sending to WhatsApp.');
+      return;
     }
+
+    // Submit to backend/local storage
+    submitApplicationData({
+      jobId: job?.id || '',
+      jobTitle: job?.title || 'General Application',
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      experience: formData.experience,
+      resumeName: resumeFile?.name || '',
+      coverNote: formData.coverNote,
+    });
+
+    // Open WhatsApp with pre-filled candidate details
+    openWhatsApp(whatsappMessage, COMPANY_WHATSAPP_NUMBER);
     setSubmitted(true);
   };
 
@@ -454,17 +510,66 @@ export const JobDetailsPage = () => {
                       )}
                     </div>
 
-                    {/* Action buttons */}
-                    <div className="space-y-2.5 pt-1">
-                      <a
-                        href={gmailComposeLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full inline-flex items-center justify-center gap-2 py-3 px-6 rounded-xl bg-[#C74E23] hover:bg-orange-600 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
-                      >
-                        <Mail className="w-4 h-4" />
-                        <span>Send via Web Email (Gmail)</span>
-                      </a>
+                    {/* WhatsApp & Email Action Buttons */}
+                    <div className="space-y-3 pt-1">
+                      {/* Priority WhatsApp Card */}
+                      <div className="p-4 rounded-2xl bg-gradient-to-br from-emerald-50 via-teal-50/50 to-emerald-50 border border-emerald-200 text-left space-y-2.5 shadow-2xs">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 rounded-xl bg-[#25D366] text-white flex items-center justify-center shrink-0 shadow-sm">
+                              <WhatsAppIcon className="w-4 h-4" />
+                            </div>
+                            <div>
+                              <span className="font-bold text-slate-900 text-xs sm:text-sm block">
+                                Send to HR on WhatsApp
+                              </span>
+                              <span className="text-[11px] text-emerald-800 font-bold block">
+                                {COMPANY_PHONE_DISPLAY}
+                              </span>
+                            </div>
+                          </div>
+                          <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200 text-[10px] font-black uppercase tracking-wider">
+                            Instant
+                          </span>
+                        </div>
+
+                        <p className="text-[11px] text-slate-600 leading-relaxed">
+                          Send a copy of your credentials directly to our recruitment line on WhatsApp for immediate priority review:
+                        </p>
+
+                        <a
+                          href={whatsappLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full inline-flex items-center justify-center gap-2 py-3 px-5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] active:bg-[#1da850] text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
+                        >
+                          <WhatsAppIcon className="w-4 h-4" />
+                          <span>Send Message via WhatsApp ({COMPANY_PHONE_DISPLAY})</span>
+                        </a>
+                      </div>
+
+                      {/* Email Actions */}
+                      <div className="pt-1">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          <a
+                            href={mailtoLink}
+                            className="inline-flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border border-stone-200 bg-white hover:bg-stone-50 text-slate-800 font-bold text-xs shadow-2xs transition-all active:scale-[0.98]"
+                          >
+                            <Mail className="w-3.5 h-3.5 text-[#C74E23]" />
+                            <span>Open in Mobile Mail App</span>
+                          </a>
+
+                          <a
+                            href={gmailComposeLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#C74E23] hover:bg-orange-600 text-white font-bold text-xs shadow-2xs transition-all active:scale-[0.98]"
+                          >
+                            <Send className="w-3.5 h-3.5" />
+                            <span>Open in Web Gmail</span>
+                          </a>
+                        </div>
+                      </div>
 
                       <button
                         type="button"
@@ -581,22 +686,32 @@ export const JobDetailsPage = () => {
                       />
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-2.5">
                       <Button
                         type="submit"
                         variant="primary"
                         size="lg"
-                        className="w-full gap-2 py-3.5 rounded-xl font-bold bg-[#C74E23] hover:bg-orange-600 text-white shadow-md hover:shadow-orange-500/25 cursor-pointer active:scale-98 transition-all"
+                        className="w-full gap-2 py-3.5 rounded-xl font-bold bg-[#C74E23] hover:bg-orange-600 active:bg-orange-700 text-white shadow-md hover:shadow-orange-500/25 cursor-pointer active:scale-[0.99] transition-all"
                       >
                         <Send className="w-4 h-4" />
-                        <span>Submit Application</span>
+                        <span>Submit Application (Email &amp; WhatsApp)</span>
                       </Button>
+
+                      <button
+                        type="button"
+                        onClick={handleDirectWhatsAppApply}
+                        className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs sm:text-sm transition-all duration-200 cursor-pointer active:scale-[0.99]"
+                      >
+                        <WhatsAppIcon className="w-4 h-4 text-emerald-600" />
+                        <span>Quick Apply via WhatsApp ({COMPANY_PHONE_DISPLAY})</span>
+                      </button>
 
                       <p className="text-[11px] text-slate-500 text-center flex items-center justify-center gap-1.5 pt-1">
                         <Mail className="w-3.5 h-3.5 text-[#C74E23] shrink-0" />
                         <span>
                           Direct delivery to{' '}
-                          <strong className="text-black font-semibold">careers@durgamsoft.com</strong>
+                          <strong className="text-black font-semibold">careers@durgamsoft.com</strong> &amp; WhatsApp{' '}
+                          <strong className="text-emerald-700 font-semibold">{COMPANY_PHONE_DISPLAY}</strong>
                         </span>
                       </p>
                     </div>
@@ -614,6 +729,16 @@ export const JobDetailsPage = () => {
                 </p>
 
                 <div className="space-y-3 pt-1">
+                  <a
+                    href={getWhatsAppLink(`Hello Durgam Soft HR team, I have a question regarding the ${job?.title || 'Job'} opening.`, COMPANY_WHATSAPP_NUMBER)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-3.5 rounded-2xl bg-emerald-50/70 hover:bg-emerald-100/80 border border-emerald-200/80 flex items-center gap-3 text-xs font-bold text-slate-800 transition-colors group block"
+                  >
+                    <WhatsAppIcon className="w-4 h-4 text-emerald-600" />
+                    <span className="group-hover:text-emerald-700 transition-colors">WhatsApp: {COMPANY_PHONE_DISPLAY}</span>
+                  </a>
+
                   <a
                     href={`mailto:careers@durgamsoft.com?subject=Inquiry:%20${encodeURIComponent(job.title)}`}
                     className="p-3.5 rounded-2xl bg-[#FAF7F2] hover:bg-orange-50 border border-stone-200 flex items-center gap-3 text-xs font-bold text-slate-800 transition-colors group block"

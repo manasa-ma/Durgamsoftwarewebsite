@@ -23,6 +23,7 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { Breadcrumb } from '../../components/common/Breadcrumb';
+import { openEmailClient } from '../../utils/applicationDispatch';
 import { Button } from '../../components/buttons/Button';
 import { updatePageMeta } from '../../utils/seo';
 import { FollowOnSocial } from '../../components/common/FollowOnSocial';
@@ -267,11 +268,11 @@ export const BookDemoPage = ({ isLandingPage: propIsLandingPage }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      window.open(gmailComposeLink, '_blank', 'noopener,noreferrer');
-    } catch {
-      // Fallback handled smoothly by UI state
-    }
+    openEmailClient({
+      to: 'contact@billmasterapp.com',
+      subject: emailSubject,
+      body: formatEmailBody(),
+    });
     setSubmitted(true);
   };
 

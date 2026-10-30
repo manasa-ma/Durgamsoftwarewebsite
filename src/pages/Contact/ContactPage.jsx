@@ -12,6 +12,8 @@ import contactHeroSoftwareWebp from '../../assets/images/contact/contact-hero-so
 
 
 
+import { openEmailClient } from '../../utils/applicationDispatch';
+
 export const ContactPage = () => {
 
   const [submitted, setSubmitted] = useState(false);
@@ -117,23 +119,13 @@ export const ContactPage = () => {
 
 
   const handleSubmit = (e) => {
-
     e.preventDefault();
-
-    try {
-
-      // Directly open Web Email (Gmail Compose in browser) instead of desktop Outlook
-
-      window.open(gmailComposeLink, '_blank', 'noopener,noreferrer');
-
-    } catch {
-
-      // Fallback handled smoothly by UI state
-
-    }
-
+    openEmailClient({
+      to: 'contact@billmasterapp.com',
+      subject: emailSubject,
+      body: formatEmailBody(),
+    });
     setSubmitted(true);
-
   };
 
 
